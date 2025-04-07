@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const mongoTestRoute = require('./mongoTestRoute'); // Import your route file
+const home = require('./home'); // Import your route file
 
-// Prefix '/api' for all routes in this file
-router.use('/mongotest', mongoTestRoute);  // Now the route will be accessible at /api/yourroute/test
+//test route
+router.use('/', home);
 
 module.exports = router;
