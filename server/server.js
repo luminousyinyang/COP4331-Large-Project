@@ -2,31 +2,42 @@
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const connectDB = require('./config/database'); // Import the database connection
+const mongoose = require('mongoose');
+const connectDB = require('./config/database');
+const routes = require('./controllers');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize database connection
-connectDB();
+//for now
+const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=COP4331`;
 
+
+app.use(express.json());
 // Session setup
 app.use(session({
     secret: process.env.SESSION_SECRET || 'super secret',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=COP4331` }),
+    store: MongoStore.create({
+        mongoUrl: mongoURI,
+    }),
 }));
 
-// Middleware to parse JSON requests
-app.use(express.json());
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.use(routes);
+        app.get('/', (req, res) => {
+            res.send('Server is running');
+        });
+        app.listen(PORT, () => {
+            console.log(`Server running at http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error('Failed to start server:', err);
+        process.exit(1);
+    }
+};
 
-// Sample route
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
-
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+startServer();
