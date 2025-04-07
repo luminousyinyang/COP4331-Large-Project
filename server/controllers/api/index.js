@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const home = require('./home'); // Import your route file
-
+const home = require('./homeController');
 //test route
 router.use('/', home);
 

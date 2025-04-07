@@ -1,8 +1,6 @@
-// server.js
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 const connectDB = require('./config/database');
 const routes = require('./controllers');
 
@@ -14,7 +12,7 @@ const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PA
 
 
 app.use(express.json());
-// Session setup
+// Session 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'super secret',
     resave: false,
