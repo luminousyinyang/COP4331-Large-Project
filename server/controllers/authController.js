@@ -37,7 +37,16 @@ router.get('/logout', (req, res) => {
 
 
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const {
+        username,
+        password,
+        firstname,
+        lastname,
+        x,
+        instagram,
+        spotify,
+        amazon
+    } = req.body;
 
     try {
         // Check if user already exists
@@ -46,8 +55,7 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Username already taken' });
         }
 
-
-        const user = new User({ username, password });
+        const user = new User({ username, password, firstname, lastname, x, instagram, spotify, amazon });
         await user.save();
 
         // Log in immediately after registration\
