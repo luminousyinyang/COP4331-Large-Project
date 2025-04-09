@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "concurrently --kill-others \"npm run server\" \"npm run frontend\"",
         "server": "nodemon server/server.js",
-        "frontend": "npm run dev --prefix frontend"
+        "frontend": "npm run dev --prefix frontend",
+        "start-server": "wait-on -r tcp:5000 && nodemon server/server.js"
     },
     "dependencies": {
         "concurrently": "^9.1.0"

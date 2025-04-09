@@ -12,11 +12,37 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    firstname: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    lastname: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    x: {
+        type: String,
+        default: '',
+    },
+    instagram: {
+        type: String,
+        default: '',
+    },
+    spotify: {
+        type: String,
+        default: '',
+    },
+    amazon: {
+        type: String,
+        default: '',
+    },
 }, {
     timestamps: true,
 });
 
-// Hash password
+// Hash password before saving
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
     try {
@@ -27,6 +53,7 @@ userSchema.pre('save', async function (next) {
         next(err);
     }
 });
+
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
