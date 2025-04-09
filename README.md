@@ -56,7 +56,8 @@ You need to create a `.env` file in the root directory of your project. Yall pro
 - **MONGO_USER**: Your Atlas username.
 - **MONGO_PASS**: Your Atlas password (not included in the URI—set this manually).
 - **MONGO_CLUSTER**: The cluster part of the URI (e.g., `cop4331.hznak2g.mongodb.net`). It comes after the password in the URI.
-- **MONGO_DB**: The name of your database.
+- **MONGO_DB**: The name of your database.(optional)
+- **MONGO_APP_NAME**: name of the app, last param in the url
 
 Replace the placeholder (`YourUsername`, `YourPassword`, `yourdbname`) with your actual credentials
 
