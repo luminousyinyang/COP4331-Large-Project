@@ -6,6 +6,7 @@ Large project for our POOSD class
 ## Links
 
 [TO DO Board](https://github.com/users/luminousyinyang/projects/5)
+[Figma Link](https://www.figma.com/design/PTbKHAavEiURxx48asy7T5/POOSD-Large?node-id=0-1&p=f&t=AoLq4FDlW8xUBjVM-0)
 
 ## How to Run the App Locally
 
