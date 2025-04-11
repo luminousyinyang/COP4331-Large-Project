@@ -80,6 +80,20 @@ router.post('/delete', async (req, res) => {
     }
 })
 
+router.post('/singleitem', async (req, res) => {
+    const { itemID } = req.body;
+
+    try {
+        const query = await Item.findById(itemID);
+
+        res.status(200).json({message:"success", item:query});
+
+    } catch(err) {
+        console.error("error getting a singleitem", err);
+        return res.status(404).json({message: "item not found"});
+    }
+})
+
 router.post('/search', async (req, res) => {
     // needs userID (will get all the items for that userID)
     // if title is present, it will retrieve those docs. with title in it
