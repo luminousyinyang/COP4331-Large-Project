@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Item = require('../../models/Item');
+const cheerio = require('cheerio');
+const axios = require('axios');
 
 router.post('/create', async (req, res) => {
     const { userID, tagID, description, imageURL, price, title } = req.body;
@@ -115,6 +117,49 @@ router.post('/search', async (req, res) => {
         console.log("Something wrong happened", err);
     }
 
+})
+
+router.post('/getprodinfo', async (req, res) => {
+    // input: url of the product
+    // returns: title, description, and imageURL
+    const { url } = req.body;
+
+    const headers = {
+        headers: {
+          'User-Agent': 'Twitterbot/1.0',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        },
+        maxRedirects: 5,
+        timeout: 10000
+    }
+
+    try {
+        const response = await axios.get(url, headers);
+
+        const $ = cheerio.load(response.data);
+
+        const image = $("meta[property='og:image']").attr('content');
+        const title = $("meta[property='og:title']").attr('content');
+        const description = $("meta[property='og:description']").attr('content');
+
+        let responseBody = {
+            title: title,
+            description: description,
+            image: image
+        }
+
+        res.status(200).json({message: "fetch success", info: responseBody});
+
+    } catch(err) {
+        console.log("error: ", err)
+        return res.status(404).json({message: "unexpected error"});
+    }
 })
 
 module.exports = router;
