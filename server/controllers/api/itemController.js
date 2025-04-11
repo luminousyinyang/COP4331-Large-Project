@@ -57,4 +57,64 @@ router.post('/update', async (req, res) => {
     }
 });
 
+router.post('/delete', async (req, res) => {
+    const { itemID } = req.body;
+    // requires just itemID
+
+    if(!itemID) {
+        return res.status(404).json({message: "itemID missing"});
+    }
+
+    // TODO: do the changes in the database!
+
+    try {
+        const query = await Item.deleteOne({_id: itemID});
+
+        res.status(200).json({message: "removal successful",
+             numRemoved: query.deletedCount})
+    } catch (err) {
+        console.error("Encountered the following error\n", err);
+        res.status(500).json({message: "Error deleting, see console"});
+    }
+})
+
+router.post('/search', async (req, res) => {
+    // needs userID (will get all the items for that userID)
+    // if title is present, it will retrieve those docs. with title in it
+    
+    const { title, userID } = req.body;
+    
+    if (!userID) {
+        return res.status(404).json({message: "userID missing"});
+    }
+    try {
+        // will get all the items that have the requested title in it.
+        // it could be one word, or the whole title, or just a portion of a word
+        let query;
+
+        if(!title) {
+            // search all of the items
+            console.log(`Searching all the items for user ${userID}`);
+            query = await Item.find({
+                userID: userID
+            })
+        } else {
+            // search for a specific item
+            console.log(`Searching for ${title} for user ${userID}`);
+            query = await Item.find({
+                userID: userID,
+                title: new RegExp(title, "im")
+            });
+        }
+        
+        console.log(query);
+        res.status(200).json({message: "searching successful, see console", 
+            items: query});
+
+    } catch(err) {
+        console.log("Something wrong happened", err);
+    }
+
+})
+
 module.exports = router;
