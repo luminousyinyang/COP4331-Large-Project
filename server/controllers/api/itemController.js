@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Item = require('../../models/Item');
+const User = require('../../models/User');
 const cheerio = require('cheerio');
 const axios = require('axios');
 
@@ -10,6 +11,12 @@ router.post('/create', async (req, res) => {
     try {
         if (!userID || !tagID || !description || !imageURL || price === undefined || !title) {
             return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Check if user exists
+        const user = await User.findById(userID);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
         const item = new Item({
