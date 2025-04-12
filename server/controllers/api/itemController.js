@@ -30,7 +30,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.post('/update', async (req, res) => {
-    const { itemId, userID, tagID, description, imageURL, price, title, isBought } = req.body;
+    const { itemId, tagID, description, imageURL, price, title, isBought } = req.body;
 
     if (!itemId) {
         return res.status(400).json({ message: 'Item ID is required' });
@@ -43,7 +43,6 @@ router.post('/update', async (req, res) => {
             return res.status(404).json({ message: 'Item not found' });
         }
 
-        item.userID = userID || item.userID;
         item.tagID = tagID || item.tagID;
         item.description = description || item.description;
         item.imageURL = imageURL || item.imageURL;
@@ -63,20 +62,22 @@ router.post('/delete', async (req, res) => {
     const { itemID } = req.body;
     // requires just itemID
 
-    if(!itemID) {
-        return res.status(404).json({message: "itemID missing"});
+    if (!itemID) {
+        return res.status(404).json({ message: "itemID missing" });
     }
 
     // TODO: do the changes in the database!
 
     try {
-        const query = await Item.deleteOne({_id: itemID});
+        const query = await Item.deleteOne({ _id: itemID });
 
-        res.status(200).json({message: "removal successful",
-             numRemoved: query.deletedCount})
+        res.status(200).json({
+            message: "removal successful",
+            numRemoved: query.deletedCount
+        })
     } catch (err) {
         console.error("Encountered the following error\n", err);
-        res.status(500).json({message: "Error deleting, see console"});
+        res.status(500).json({ message: "Error deleting, see console" });
     }
 })
 
@@ -86,29 +87,29 @@ router.post('/singleitem', async (req, res) => {
     try {
         const query = await Item.findById(itemID);
 
-        res.status(200).json({message:"success", item:query});
+        res.status(200).json({ message: "success", item: query });
 
-    } catch(err) {
+    } catch (err) {
         console.error("error getting a singleitem", err);
-        return res.status(404).json({message: "item not found"});
+        return res.status(404).json({ message: "item not found" });
     }
 })
 
 router.post('/search', async (req, res) => {
     // needs userID (will get all the items for that userID)
     // if title is present, it will retrieve those docs. with title in it
-    
+
     const { title, userID } = req.body;
-    
+
     if (!userID) {
-        return res.status(404).json({message: "userID missing"});
+        return res.status(404).json({ message: "userID missing" });
     }
     try {
         // will get all the items that have the requested title in it.
         // it could be one word, or the whole title, or just a portion of a word
         let query;
 
-        if(!title) {
+        if (!title) {
             // search all of the items
             console.log(`Searching all the items for user ${userID}`);
             query = await Item.find({
@@ -122,12 +123,14 @@ router.post('/search', async (req, res) => {
                 title: new RegExp(title, "im")
             });
         }
-        
-        console.log(query);
-        res.status(200).json({message: "searching successful, see console", 
-            items: query});
 
-    } catch(err) {
+        console.log(query);
+        res.status(200).json({
+            message: "searching successful, see console",
+            items: query
+        });
+
+    } catch (err) {
         console.log("Something wrong happened", err);
     }
 
@@ -140,14 +143,14 @@ router.post('/getprodinfo', async (req, res) => {
 
     const headers = {
         headers: {
-          'User-Agent': 'Twitterbot/1.0',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Connection': 'keep-alive',
-          'Upgrade-Insecure-Requests': '1',
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
+            'User-Agent': 'Twitterbot/1.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
         },
         maxRedirects: 5,
         timeout: 10000
@@ -168,11 +171,11 @@ router.post('/getprodinfo', async (req, res) => {
             image: image
         }
 
-        res.status(200).json({message: "fetch success", info: responseBody});
+        res.status(200).json({ message: "fetch success", info: responseBody });
 
-    } catch(err) {
+    } catch (err) {
         console.log("error: ", err)
-        return res.status(404).json({message: "unexpected error"});
+        return res.status(404).json({ message: "unexpected error" });
     }
 })
 
