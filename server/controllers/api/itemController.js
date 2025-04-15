@@ -4,6 +4,9 @@ const Item = require('../../models/Item');
 const User = require('../../models/User');
 const cheerio = require('cheerio');
 const axios = require('axios');
+const fileUpload = require('express-fileupload');
+const crypto = require('crypto');
+const path = require('path');
 
 router.post('/create', async (req, res) => {
     const { userID, tagID, description, imageURL, price, title } = req.body;
@@ -35,6 +38,40 @@ router.post('/create', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+router.post('/uploadimg',fileUpload({
+    limits: {
+        fileSize: 10000000,
+        safeFileNames: true,
+    },
+    abortOnLimit: true,
+}) ,async (req, res) => {
+    const { image } = req.body;
+
+    if(!image) {
+        return res.status(400).json({message: "Image missing"});
+    }
+
+    if (!/^image/.test(image.mimetype)) {
+        return res.status(400).json({message: "Invalid file type"});  
+    } 
+
+    // new filename
+    const fileExtension = path.extname(image.name);
+    const uniqueFilename = crypto.randomUUID() + fileExtension;
+
+    // file destination
+    const destinationFile = path.join("../../../upload/", uniqueFilename);
+
+
+    // save the image in the upload folder, which is at the root of the project
+    image.mv(destinationFile);
+
+    return res.status(200).json({
+        message: "image upload successful",
+        imgPath: destinationFile
+    })
+})
 
 router.post('/update', async (req, res) => {
     const { itemId, tagID, description, imageURL, price, title, isBought } = req.body;
@@ -78,8 +115,6 @@ router.post('/delete', async (req, res) => {
     if(itemUserID.userID != userID) {
         return res.status(403).json({message: "Forbidden: Item not for this user"});
     }
-
-    // TODO: do the changes in the database!
 
     try {
         const query = await Item.deleteOne({ _id: itemID });
