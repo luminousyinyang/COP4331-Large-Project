@@ -173,10 +173,18 @@ router.post('/getprodinfo', async (req, res) => {
         const response = await axios.get(url, headers);
 
         const $ = cheerio.load(response.data);
+        let image, title, description;
 
-        const image = $("meta[property='og:image']").attr('content');
-        const title = $("meta[property='og:title']").attr('content');
-        const description = $("meta[property='og:description']").attr('content');
+        if(url.includes("a.co") || url.includes("amazon.com")) {
+            image = $('img#landingImage').attr('src');
+            title = $("meta[name='title']").attr('content');
+            description = $("meta[name='description']").attr('content');
+        } else {
+            image = $("meta[property='og:image']").attr('content');
+            title = $("meta[property='og:title']").attr('content');
+            description = $("meta[property='og:description']").attr('content');
+        }
+
 
         let responseBody = {
             title: title,
