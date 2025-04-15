@@ -66,11 +66,17 @@ router.post('/update', async (req, res) => {
 });
 
 router.post('/delete', async (req, res) => {
-    const { itemID } = req.body;
+    const { itemID, userID } = req.body;
     // requires just itemID
 
     if (!itemID) {
         return res.status(404).json({ message: "itemID missing" });
+    }
+
+    // checks if the user has access to this item
+    const itemUserID = await Item.findById(itemID);
+    if(itemUserID.userID != userID) {
+        return res.status(403).json({message: "Forbidden: Item not for this user"});
     }
 
     // TODO: do the changes in the database!
@@ -150,7 +156,7 @@ router.post('/getprodinfo', async (req, res) => {
 
     const headers = {
         headers: {
-            'User-Agent': 'Twitterbot/1.0',
+            'User-Agent': 'WishListAppBot/1.0',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Accept-Encoding': 'gzip, deflate, br',
