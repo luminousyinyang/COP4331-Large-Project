@@ -46,8 +46,12 @@ router.post('/uploadimg',fileUpload({
     },
     abortOnLimit: true,
 }) ,async (req, res) => {
+    // first obtains the image from the request
+
     const { image } = req.body;
 
+    // checks if there is a file and if there is a file, it is considered
+    // an image
     if(!image) {
         return res.status(400).json({message: "Image missing"});
     }
@@ -56,17 +60,18 @@ router.post('/uploadimg',fileUpload({
         return res.status(400).json({message: "Invalid file type"});  
     } 
 
-    // new filename
+    // new filename to ensure we do not overwrite other images
     const fileExtension = path.extname(image.name);
     const uniqueFilename = crypto.randomUUID() + fileExtension;
 
     // file destination
-    const destinationFile = path.join("../../../upload/", uniqueFilename);
+    const destinationFile = path.join(__dirname, "../../../upload/", uniqueFilename);
 
 
     // save the image in the upload folder, which is at the root of the project
     image.mv(destinationFile);
 
+    // return the file path for the file
     return res.status(200).json({
         message: "image upload successful",
         imgPath: destinationFile
