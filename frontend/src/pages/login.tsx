@@ -3,7 +3,7 @@
 import GridBackground from "@/components/ui/grid-bg"
 import { LoginForm } from "@/components/login-form"
 
-export default function SignupPage() {
+export default function LoginPage() {
   return (
     <GridBackground>
       <div className="flex items-center justify-center min-h-screen px-4 py-10">
