@@ -11,10 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import { Eye } from 'react-feather';
 
-export function RegForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
+  
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -41,32 +39,34 @@ export function RegForm({
                       id="lastName"
                       type="text"
                       required />
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  required
-                />
-
-              </div>
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    required
+                  />
+                </div>
               </div>
               <div className="grid gap-6">
                 <div className="grid gap-3">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                   </div>
-                  <Input id="password" type="password" required />
+                  <div className="relative">
+                    <Input id="password" type="password" required />
+                    <Eye size={22} className="absolute top-2 right-4"/>
+                  </div>
                 </div>
                 <Button type="submit" className="w-full">
                   Register
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Already have an account{" "}
+                Already have an account?{" "}
                 <a href="#" className="underline underline-offset-4">
-                  Log in
+                  Login
                 </a>
               </div>
             </div>
