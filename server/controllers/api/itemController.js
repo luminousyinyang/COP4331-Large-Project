@@ -4,6 +4,9 @@ const Item = require('../../models/Item');
 const User = require('../../models/User');
 const cheerio = require('cheerio');
 const axios = require('axios');
+const fileUpload = require('express-fileupload');
+const crypto = require('crypto');
+const path = require('path');
 
 router.post('/create', async (req, res) => {
     const { userID, tagID, description, imageURL, price, title } = req.body;
@@ -36,6 +39,45 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.post('/uploadimg',fileUpload({
+    limits: {
+        fileSize: 10000000,
+        safeFileNames: true,
+    },
+    abortOnLimit: true,
+}) ,async (req, res) => {
+    // first obtains the image from the request
+
+    const { image } = req.body;
+
+    // checks if there is a file and if there is a file, it is considered
+    // an image
+    if(!image) {
+        return res.status(400).json({message: "Image missing"});
+    }
+
+    if (!/^image/.test(image.mimetype)) {
+        return res.status(400).json({message: "Invalid file type"});  
+    } 
+
+    // new filename to ensure we do not overwrite other images
+    const fileExtension = path.extname(image.name);
+    const uniqueFilename = crypto.randomUUID() + fileExtension;
+
+    // file destination
+    const destinationFile = path.join(__dirname, "../../../upload/", uniqueFilename);
+
+
+    // save the image in the upload folder, which is at the root of the project
+    image.mv(destinationFile);
+
+    // return the file path for the file
+    return res.status(200).json({
+        message: "image upload successful",
+        imgPath: destinationFile
+    })
+})
+
 router.post('/update', async (req, res) => {
     const { itemId, tagID, description, imageURL, price, title, isBought } = req.body;
 
@@ -66,14 +108,18 @@ router.post('/update', async (req, res) => {
 });
 
 router.post('/delete', async (req, res) => {
-    const { itemID } = req.body;
+    const { itemID, userID } = req.body;
     // requires just itemID
 
     if (!itemID) {
         return res.status(404).json({ message: "itemID missing" });
     }
 
-    // TODO: do the changes in the database!
+    // checks if the user has access to this item
+    const itemUserID = await Item.findById(itemID);
+    if(itemUserID.userID != userID) {
+        return res.status(403).json({message: "Forbidden: Item not for this user"});
+    }
 
     try {
         const query = await Item.deleteOne({ _id: itemID });
@@ -150,7 +196,7 @@ router.post('/getprodinfo', async (req, res) => {
 
     const headers = {
         headers: {
-            'User-Agent': 'Twitterbot/1.0',
+            'User-Agent': 'WishListAppBot/1.0',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Accept-Encoding': 'gzip, deflate, br',
@@ -167,10 +213,18 @@ router.post('/getprodinfo', async (req, res) => {
         const response = await axios.get(url, headers);
 
         const $ = cheerio.load(response.data);
+        let image, title, description;
 
-        const image = $("meta[property='og:image']").attr('content');
-        const title = $("meta[property='og:title']").attr('content');
-        const description = $("meta[property='og:description']").attr('content');
+        if(url.includes("a.co") || url.includes("amazon.com")) {
+            image = $('img#landingImage').attr('src');
+            title = $("meta[name='title']").attr('content');
+            description = $("meta[name='description']").attr('content');
+        } else {
+            image = $("meta[property='og:image']").attr('content');
+            title = $("meta[property='og:title']").attr('content');
+            description = $("meta[property='og:description']").attr('content');
+        }
+
 
         let responseBody = {
             title: title,
