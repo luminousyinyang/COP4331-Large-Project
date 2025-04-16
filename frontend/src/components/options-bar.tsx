@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Filter, PlusSquare, Search } from 'react-feather';
-
+import Dropdown from "@/components/ui/checkbox";
 
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
     return (
@@ -15,19 +15,17 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                         type="text"
                         placeholder="Search"
                     />
-                    <Search size={22} className="absolute top-1.5 right-2"/>
+                    <Search size={22} className="absolute top-1.5 right-3"/>
                 </div>
                 <div className="relative">
-                    <Button type="submit" className="w-[155px] ">
-                        Filter
-                    </Button>
-                    <Filter size={22} className="absolute top-1.5 right-2"/>
+                    <Dropdown text={"Filter"} style={"w-[155px] flex justify-start text-white"} size={"w-39"}/>
+                    <Filter size={22} color="white" className="absolute top-1.5 right-3"/>
                 </div>
                 <div className="relative">
-                    <Button type="submit" className="w-[155px] ">
+                    <Button type="submit" className="w-[155px] flex justify-start ">
                         Add
                     </Button>
-                    <PlusSquare size={22} className="absolute top-1.5 right-2"/>
+                    <PlusSquare size={22} color="white" className="absolute top-1.5 right-3"/>
                 </div>
             </div>
             
