@@ -4,7 +4,7 @@ import { RegForm } from "./components/reg-form";
 function App() {
   return (
     <div className="p-10">
-      <LoginForm />
+      <RegForm />
     </div>
   )
 }

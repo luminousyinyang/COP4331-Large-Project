@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
+import { Eye } from 'react-feather';
 
 export function RegForm({
   className,
@@ -63,9 +64,9 @@ export function RegForm({
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Dont have an account?{" "}
+                Already have an account?{" "}
                 <a href="#" className="underline underline-offset-4">
-                  Sign up
+                  Login
                 </a>
               </div>
             </div>

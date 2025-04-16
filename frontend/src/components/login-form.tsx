@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
+import { Eye, User } from 'react-feather';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
@@ -37,19 +38,24 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         </div>
                         <div className="grid gap-6">
                             <div className="grid gap-3">
-                                <div className="flex items-center">
+                                <div className="flex items-center relative">
                                     <Label htmlFor="password">Password</Label>
+                                    <User size={22} className="absolute bottom-11 right-4" />
+                                    
                                 </div>
-                                <Input id="password" type="password" required />
+                                <div className="relative">
+                                    <Input id="password" type="password" required />
+                                    <Eye size={22} className="absolute top-2 right-4"/>
+                                </div>
                             </div>
                         </div>
                         <Button type="submit" className="w-[155px] justify-self-center">
-                            Register
+                            Login
                         </Button>
                         <div className="text-center text-sm">
-                            Already have an account?{" "}
+                            Don't have an account?{" "}
                             <a href="#" className="underline underline-offset-4">
-                            Login
+                            Sign Up
                             </a>
                         </div>
                     </div>
