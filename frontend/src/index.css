@@ -5,6 +5,7 @@
 
 @theme {
   --bg-salmon: rgba(255, 150, 140, 1);
+  --bg-navy: rgba(22, 43, 82, 1);
 }
 
 :root {
@@ -65,12 +66,11 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
-  justify-content: center;
+  width: 100%;
 }
+
+
 
 h1 {
   font-size: 3.2em;
