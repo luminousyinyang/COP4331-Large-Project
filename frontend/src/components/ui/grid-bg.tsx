@@ -31,8 +31,8 @@ export default function GridBackground({ children }: { children?: React.ReactNod
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(to right, rgb(147 197 253 / 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgb(147 197 253 / 0.05) 1px, transparent 1px)
+            linear-gradient(to right, rgb(147 197 253 / 0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(147 197 253 / 0.1) 1px, transparent 1px)
           `,
           backgroundSize: "40px 40px",
           backgroundPosition: "0 0",
@@ -44,12 +44,13 @@ export default function GridBackground({ children }: { children?: React.ReactNod
         style={{
           opacity: isHovering ? 1 : 0,
           backgroundImage: `
-            linear-gradient(to right, rgb(170 197 253 / 0.3) 1px, transparent 1px),
-            linear-gradient(to bottom, rgb(170 197 253 / 0.3) 1px, transparent 1px)
+            linear-gradient(to right, rgb(200 215 253 / 0.5) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(200 215 253 / 0.5) 1px, transparent 1px)
           `,
+
           backgroundSize: "40px 40px",
           backgroundPosition: "0 0",
-          mask: `radial-gradient(circle 150px at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+          mask: `radial-gradient(circle 300px at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
         }}
       />
 
