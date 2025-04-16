@@ -1,4 +1,6 @@
-import { LoginForm } from "./components/login-form"  
+import { LoginForm } from "./components/login-form";
+import { RegForm } from "./components/reg-form";
+
 function App() {
   return (
     <div className="p-10">
