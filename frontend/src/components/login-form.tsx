@@ -47,9 +47,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                             Register
                         </Button>
                         <div className="text-center text-sm">
-                            Already have an account?{" "}
+                            Don't have an account?{" "}
                             <a href="#" className="underline underline-offset-4">
-                            Login
+                            Sign up
                             </a>
                         </div>
                     </div>
