@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { X } from 'react-feather';
 import { Filter, PlusSquare, Search } from 'react-feather';
 import Dropdown from "@/components/ui/checkbox";
@@ -20,7 +20,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
             <h2 className="text-3xl font-black">My Wishlist</h2>
             <div className="flex justify-between">
                 <div className="relative w-[364px]">
-                    <Input className="shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"
+                    <Input className="bg-[var(--bg-pale-white)] shadow-[5px_5px_5px_rgba(0,0,0,0.3)] px-8"
                         id="search"
                         type="text"
                         placeholder="Search"
