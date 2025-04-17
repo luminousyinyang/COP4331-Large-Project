@@ -9,6 +9,8 @@
         "start-server": "wait-on -r tcp:5000 && nodemon server/server.js"
     },
     "dependencies": {
-        "concurrently": "^9.1.0"
+        "concurrently": "^9.1.0",
+        "cors": "^2.8.5",
+        "express-fileupload": "^1.5.1"
     }
 }
