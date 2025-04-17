@@ -25,7 +25,7 @@ export default function DropdownMenuCheckboxes({ text, style, size }) {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className={style}>{ text }</Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className={`${size} bg-[var(--bg-pale-white)] border border-black`}>
+      <DropdownMenuContent className={`${size} bg-[var(--bg-pale-white)] border border-black scrollbar-thin`}>
         <DropdownMenuLabel>All Tags</DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-black"/>
         
@@ -47,6 +47,7 @@ export default function DropdownMenuCheckboxes({ text, style, size }) {
         >
           Orange
         </DropdownMenuCheckboxItem>
+        
       </DropdownMenuContent>
     </DropdownMenu>
   )
