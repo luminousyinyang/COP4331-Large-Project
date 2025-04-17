@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from 'react-feather';
+import { Textarea } from "@/components/ui/textarea";
 import {
     Dialog,
     DialogContent,
@@ -71,10 +72,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                         
                                         <div>
                                             <h2 className="font-bold">Bio</h2>
-                                            <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
-                                                id="search"
-                                                type="text"
-                                            />
+                                            <Textarea className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"/>
                                         </div>
 
                                         <div>

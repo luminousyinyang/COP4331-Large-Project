@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { X } from 'react-feather';
 import { Filter, PlusSquare, Search } from 'react-feather';
 import Dropdown from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import {
     Dialog,
     DialogContent,
@@ -86,10 +87,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                             </div>
                             <div>
                                 <h2 className="font-bold">Description</h2>
-                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
-                                    id="search"
-                                    type="text"
-                                />
+                                <Textarea className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"/>
                             </div>
                             
                             <DialogDescription></DialogDescription>
