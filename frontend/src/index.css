@@ -98,7 +98,7 @@ button {
   /* background-color: #f59890; */
   background-color: var(--bg-salmon);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.35s ease-in-out;
 }
 button:hover {
   /* border-color: #646cff; */
