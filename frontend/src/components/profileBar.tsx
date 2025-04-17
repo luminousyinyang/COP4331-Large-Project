@@ -23,9 +23,9 @@ type ProfileBarProps = {
 function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, instaLink, spotifyLink, twitterLink, ...props }: ProfileBarProps) {
     return (
         <div className={cn("flex flex-col items-center gap-6 w-[400px] bg-[var(--bg-pale-white)] border rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)]", className)} {...props}>
-            <div className="w-[340px] pt-3">
+            <div className="w-[380px] pt-3">
                 <Dialog>
-                    <DialogTrigger className="w-15 h-10 flex justify-center items-center">
+                    <DialogTrigger className="w-15 h-10 flex justify-center items-center !bg-[var(--bg-pale-white)] !border-0">
                         <i className="inline-block text-2xl bi bi-gear-fill hover:text-[var(--bg-salmon)] hover:scale-125 transition-all duration-400 ease-out cursor-pointer"></i>
                     </DialogTrigger>
                     <DialogContent className="bg-[var(--bg-sandpaper)]"> 
