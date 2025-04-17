@@ -36,16 +36,16 @@ const Item = ({ className, image, imgDesc, price, itemDesc, ...props }: ItemProp
                                 <X className="absolute top-1.25 right-1.75"></X>
                             </DialogTrigger>
                         </div>
-                        <DialogContent className="w-[360px] bg-[var(--bg-sandpaper)]"> 
+                        <DialogContent className="w-[400px] bg-[var(--bg-sandpaper)] pt-5 px-12"> 
                             <DialogHeader>
-                                <DialogClose className="cancel-btn absolute w-[35px] h-[35px] top-2.5 right-5 text-white">
-                                    <X className="w-6 h-6 absolute top-1 right-1.75"></X>
+                                <DialogClose className="cancel-btn absolute w-[35px] h-[35px] top-2 right-2 text-white">
+                                    <X className="w-6 h-6 absolute top-1.25 right-1.75"></X>
                                 </DialogClose>
 
-                                <DialogTitle className="flex justify-start">Delete</DialogTitle>
+                                <DialogTitle className="flex justify-center font-black text-xl">Confirm Delete</DialogTitle>
                                 <div className="border border-[var(--bg-navy)]"></div>
                                 
-                                <DialogDescription className="text-lg">
+                                <DialogDescription className="text-lg py-5 px-8 text-black">
                                     Are you sure you want to delete this item? This action cannot be undone.
                                 </DialogDescription>
                                 <div className="flex justify-between">

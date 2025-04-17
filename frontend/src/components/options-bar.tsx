@@ -93,12 +93,6 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                             </div>
                             
                             <DialogDescription></DialogDescription>
-                            {/* <Button type="button" className="w-[155px] flex justify-center">
-                                Edit Profile
-                            </Button>
-                            <Button type="button" className="w-[155px] flex justify-center">
-                                Logout
-                            </Button> */}
                             <div className="flex justify-between">
                                 <DialogClose className="cancel-btn w-[125px] h-[37px] flex justify-center items-center ">Cancel</DialogClose>
                                 <DialogClose className=" w-[125px] h-[37px] flex justify-center items-center text-white ">Add</DialogClose>
