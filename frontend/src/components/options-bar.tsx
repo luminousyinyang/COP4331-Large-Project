@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { X } from 'react-feather';
 import { Filter, PlusSquare, Search } from 'react-feather';
 import Dropdown from "@/components/ui/checkbox";
 import {
@@ -10,6 +11,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogClose,
 } from "@/components/ui/dialog";
 
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
@@ -38,14 +40,20 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                         </DialogTrigger>
                     </div>
                     <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
-                        <DialogHeader className="flex flex-col gap-3.5">
+                        <DialogHeader className="relative flex flex-col gap-3.5">
+                            <DialogClose className="cancel-btn absolute w-[35px] h-[35px] -top-1 -right-11 text-white">
+                                <X className="w-6 h-6 absolute top-1 right-1.75"></X>
+                            </DialogClose>
+
                             <DialogTitle className="text-xl font-black flex justify-center">Add Item</DialogTitle>
                             <div className="border border-[var(--bg-navy)]"></div>
+
                             <img
                                 src="sdfsf.ssdf"
                                 alt="Upload Photo"
                                 className="w-full h-[160px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
                             />
+
                             <div>
                                 <h2 className="font-bold">Product Link</h2>
                                 <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
@@ -92,9 +100,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                                 Logout
                             </Button> */}
                             <div className="flex justify-between">
-                                <Button type="button" className="cancel-btn w-[125px] flex justify-center ">
-                                    Cancel
-                                </Button>
+                                <DialogClose className="cancel-btn w-[125px] h-[37px] flex justify-center items-center ">Cancel</DialogClose>
                                 <Button type="button" className="w-[125px] flex justify-center ">
                                     Add
                                 </Button>
