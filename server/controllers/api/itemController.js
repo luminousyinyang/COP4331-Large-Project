@@ -65,7 +65,7 @@ router.post('/uploadimg',fileUpload({
     const uniqueFilename = crypto.randomUUID() + fileExtension;
 
     // file destination
-    const destinationFile = path.join(__dirname, "../../../upload/", uniqueFilename);
+    const destinationFile = path.join("../../../upload/", uniqueFilename);
 
 
     // save the image in the upload folder, which is at the root of the project
@@ -225,6 +225,9 @@ router.post('/getprodinfo', async (req, res) => {
             description = $("meta[property='og:description']").attr('content');
         }
 
+        if(image === "" || title === "" || description === "") {
+            return res.status(404).json({message: "unable to fetch product data"});
+        }
 
         let responseBody = {
             title: title,
