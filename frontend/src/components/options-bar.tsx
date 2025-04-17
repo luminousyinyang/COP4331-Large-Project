@@ -3,6 +3,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Filter, PlusSquare, Search } from 'react-feather';
 import Dropdown from "@/components/ui/checkbox";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
     return (
@@ -21,12 +29,79 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                     <Dropdown text={"Filter"} style={"w-[155px] flex justify-start text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"} size={"w-39 max-h-100"}/>
                     <Filter size={22} color="white" className="absolute top-1.5 right-3"/>
                 </div>
-                <div className="relative">
-                    <Button type="button" className="w-[155px] flex justify-start shadow-[5px_5px_5px_rgba(0,0,0,0.3)]">
-                        Add
-                    </Button>
-                    <PlusSquare size={22} color="white" className="absolute top-1.5 right-3"/>
-                </div>
+                
+                <Dialog>
+                    <div className="relative">
+                        <DialogTrigger className="w-[155px] h-[37px] flex justify-start items-center text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]">
+                            Add
+                            <PlusSquare size={22} color="white" className="absolute top-2 right-3"/>
+                        </DialogTrigger>
+                    </div>
+                    <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
+                        <DialogHeader className="flex flex-col gap-3.5">
+                            <DialogTitle className="text-xl font-black flex justify-center">Add Item</DialogTitle>
+                            <div className="border border-[var(--bg-navy)]"></div>
+                            <img
+                                src="sdfsf.ssdf"
+                                alt="Upload Photo"
+                                className="w-full h-[160px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
+                            />
+                            <div>
+                                <h2 className="font-bold">Product Link</h2>
+                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                    id="search"
+                                    type="text"
+                                />
+                            </div>
+                            <div>
+                                <h2 className="font-bold">Name</h2>
+                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                    id="search"
+                                    type="text"
+                                />
+                            </div>
+                            <div className="flex justify-between">
+                                <div>
+                                    <h2 className="font-bold">Price</h2>
+                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                        id="search"
+                                        type="text"
+                                    />
+                                </div>
+                                <div>
+                                    <h2 className="font-bold">Tag (Optional)</h2>
+                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                        id="search"
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <h2 className="font-bold">Description</h2>
+                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
+                                    id="search"
+                                    type="text"
+                                />
+                            </div>
+                            
+                            <DialogDescription></DialogDescription>
+                            {/* <Button type="button" className="w-[155px] flex justify-center">
+                                Edit Profile
+                            </Button>
+                            <Button type="button" className="w-[155px] flex justify-center">
+                                Logout
+                            </Button> */}
+                            <div className="flex justify-between">
+                                <Button type="button" className="cancel-btn w-[125px] flex justify-center ">
+                                    Cancel
+                                </Button>
+                                <Button type="button" className="w-[125px] flex justify-center ">
+                                    Add
+                                </Button>
+                            </div>
+                        </DialogHeader>
+                    </DialogContent>
+                </Dialog>
             </div>
             
         </div>

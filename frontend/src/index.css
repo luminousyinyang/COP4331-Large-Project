@@ -106,6 +106,19 @@ button:hover {
   border-color: var(--bg-navy);
   color: white;
 }
+
+.cancel-btn {
+  background-color: var(--bg-navy);
+  border-color: var(--bg-navy);
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: var(--bg-salmon);
+  border-color: var(--bg-salmon);
+  color: white;
+}
+
 button:focus,
 button:focus-visible {
   /* outline: 4px auto -webkit-focus-ring-color; */
