@@ -22,7 +22,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                     <Filter size={22} color="white" className="absolute top-1.5 right-3"/>
                 </div>
                 <div className="relative">
-                    <Button type="submit" className="w-[155px] flex justify-start shadow-[5px_5px_5px_rgba(0,0,0,0.3)]">
+                    <Button type="button" className="w-[155px] flex justify-start shadow-[5px_5px_5px_rgba(0,0,0,0.3)]">
                         Add
                     </Button>
                     <PlusSquare size={22} color="white" className="absolute top-1.5 right-3"/>
