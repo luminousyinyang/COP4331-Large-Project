@@ -6,9 +6,9 @@ import Dropdown from "@/components/ui/checkbox";
 
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
     return (
-        <div className={cn("flex flex-col gap-3", className)} {...props}>
+        <div className={cn("flex flex-col gap-3 w-[780px]", className)} {...props}>
             <h2 className="text-3xl font-bold">My Wishlist</h2>
-            <div className="flex gap-10">
+            <div className="flex justify-between">
                 <div className="relative w-[364px]">
                     <Input className=""
                         id="search"
