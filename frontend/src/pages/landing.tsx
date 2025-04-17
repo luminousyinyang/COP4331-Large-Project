@@ -21,10 +21,12 @@ function LandingPage() {
   // )
 
   return (
-    <div  className="flex flex-col gap-5 w-full min-h-screen bg-[var(--bg-sandpaper)]" >
-        <OptionsBar  className="pt-10 ml-20"/>
-        <ItemContainer  className="ml-20"/>
-        <ProfileBar className=""/>
+    <div  className="flex flex-row justify-between overflow-visible w-full min-h-screen bg-[var(--bg-sandpaper)]" >
+        <div className="flex flex-col gap-5">
+          <OptionsBar  className="pt-10 ml-25"/>
+          <ItemContainer  className="ml-25"/>
+        </div>
+        <ProfileBar className="h-screen sticky top-0 right-0"/>
     </div>
   )
 }
