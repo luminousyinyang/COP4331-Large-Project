@@ -35,7 +35,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
 
     return (
         <div className={cn("flex flex-col gap-3 w-[780px]", className)} {...props}>
-            <h2 className="text-3xl font-black">My Wishlist</h2>
+            <h2 className="text-3xl font-black text-[var(--bg-navy)]">My Wishlist</h2>
             <div className="flex justify-between">
                 <form className="relative w-[364px]">
                     <Input className="bg-[var(--bg-pale-white)] shadow-[5px_5px_5px_rgba(0,0,0,0.3)] px-8"
