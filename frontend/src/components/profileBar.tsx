@@ -141,29 +141,31 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                 alt={imgDesc}
                 className="text-center w-[240px] h-[220px] text-white border rounded-xl bg-[var(--bg-navy)]">
             </img>
-            <p className="text-xl font-black">{firstName} {lastName}</p>
+            <div className="w-[280px] flex justify-center">
+                <p className="text-xl font-black overflow-hidden h-[26px]">{firstName} {lastName}</p>
+            </div>
             <div className="flex flex-col gap-2 w-[280px]">
                 <h2 className="text-lg font-bold">About</h2>
-                <span>{about}</span>
+                <span className="overflow-hidden h-[170px]">{about}</span>
             </div>
             <div className="flex flex-col gap-2 w-[280px]">
                 <h2 className="text-lg font-bold">Social Media</h2>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 w-[280px]">
                     <a href={instaLink} className="flex gap-5 cursor-pointer group relative">
                         <i className="bi bi-instagram"></i>
-                        <p>instagram-example.link</p>
+                        <p className="overflow-hidden h-[22px]">instagram-example.link</p>
                         <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
                     </a>
                     
                     <a href={spotifyLink} className="flex gap-5 cursor-pointer group relative">
                         <i className="bi bi-spotify"></i>
-                        <p>spotify-example.link</p>
+                        <p className="overflow-hidden h-[22px]">spotify-example.link</p>
                         <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
                     </a>
 
                     <a href={twitterLink} className="flex gap-5 cursor-pointer group relative">
                         <i className="bi bi-twitter-x"></i>
-                        <p>twitter-example.link</p>
+                        <p className="overflow-hidden h-[22px]">twitter-example.link</p>
                         <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
                     </a>
                 </div>
