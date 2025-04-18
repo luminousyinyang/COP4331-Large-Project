@@ -27,11 +27,20 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
     const [imgPreview, setImgPreview] = useState<string>("");
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        if (!open) {
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          const previewURL = URL.createObjectURL(file);
+          setImgPreview(previewURL);
+        }
+      };
+
+      useEffect(() => {
+        if (!open && imgPreview) {
+          URL.revokeObjectURL(imgPreview);
           setImgPreview(null);
         }
-    }, [open]);
+      }, [open, imgPreview]);
 
     return (
         <div className={cn("flex flex-col gap-3 w-[780px]", className)} {...props}>
@@ -76,10 +85,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                                 <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                     id="item-picture"
                                     type="file"
-                                    onChange={(e) => {
-                                        const file = e.target.files?.[0];
-                                        setImgPreview(file ? URL.createObjectURL(file) : undefined);
-                                    }}
+                                    onChange={handleImageChange}
                                 />
 
 
