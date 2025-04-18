@@ -217,13 +217,13 @@ router.post('/getprodinfo', async (req, res) => {
         const isAmazon = url.includes("a.co") || url.includes("amazon.com")
 
         if(isAmazon) {
-            image = $('img#landingImage') // .attr('src');
-            title = $("meta[name='title']")//.attr('content');
-            description = $("meta[name='description']") //.attr('content');
+            image = $('img#landingImage');
+            title = $("meta[name='title']");
+            description = $("meta[name='description']");
         } else {
-            image = $("meta[property='og:image']") //.attr('content');
-            title = $("meta[property='og:title']") //.attr('content');
-            description = $("meta[property='og:description']") //.attr('content');
+            image = $("meta[property='og:image']");
+            title = $("meta[property='og:title']");
+            description = $("meta[property='og:description']");
         }
 
         if(image.length == 0 || title.length == 0 || description.length == 0) {
