@@ -30,16 +30,11 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
             <div className="w-[380px] pt-3">
                 <Dialog>
                     <DialogTrigger className="w-0 h-0 flex justify-center items-center !bg-[var(--bg-sandpaper)] !border-0">
-                        <i className="inline-block text-2xl bi bi-gear-fill hover:text-[var(--bg-salmon)] hover:scale-125 transition-all duration-400 ease-out cursor-pointer"></i>
+                        <i className="inline-block text-2xl bi bi-gear-fill hover:text-[var(--bg-salmon)] hover:scale-125 hover:rotate-180 transition-all duration-400 ease-out cursor-pointer"></i>
                     </DialogTrigger>
                     <DialogContent className="bg-[var(--bg-sandpaper)]"> 
                         <DialogHeader>
-                            <DialogTitle className="mb-4 flex justify-center">Settings</DialogTitle>
-                            {/* <DialogDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
-                            </DialogDescription> */}
-                            
+                            <DialogTitle className="mb-4 flex justify-center">Settings</DialogTitle>                            
                             <Dialog>
                                 <div className="relative">
                                     <DialogTrigger className="w-[155px] h-[37px] flex justify-center items-center text-white">

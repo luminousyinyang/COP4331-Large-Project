@@ -45,16 +45,16 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                     />
                     <Search size={22} className="absolute top-1.5 right-3"/>
                 </form>
-                <div className="relative ">
+                <div className="relative hover:scale-110 transition-all duration-400 ease-out">
                     <Dropdown text={"Filter"} style={"w-[155px] flex justify-start text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"} size={"w-39 max-h-100"}/>
                     <Filter size={22} color="white" className="absolute top-1.5 right-3"/>
                 </div>
                 
                 <Dialog open={open} onOpenChange={setOpen}>
-                    <div className="relative">
-                        <DialogTrigger className="w-[155px] h-[37px] flex justify-start items-center text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]">
+                    <div className="relative hover:scale-110 transition-all duration-400 ease-out">
+                        <DialogTrigger className="w-[155px] h-[37px] flex justify-start items-center text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)] ">
                             Add
-                            <PlusSquare size={22} color="white" className="absolute top-2 right-3"/>
+                            <PlusSquare size={22} color="white" className="absolute top-2 right-3 "/>
                         </DialogTrigger>
                     </div>
                     <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
