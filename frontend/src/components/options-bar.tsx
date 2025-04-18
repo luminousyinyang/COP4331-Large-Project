@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 // import { Button } from "@/components/ui/button";
@@ -26,12 +26,18 @@ import {
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
     const [imgPreview, setImgPreview] = useState<string>("");
     const [open, setOpen] = useState(false);
+    const [searchVal, setSearchVal] = useState('');
 
     useEffect(() => {
         if (!open) {
           setImgPreview(null);
         }
     }, [open]);
+
+    function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+        event.preventDefault();
+        setSearchVal(event.target.value);
+    }
 
     return (
         <div className={cn("flex flex-col gap-3 w-[780px]", className)} {...props}>
@@ -42,6 +48,8 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                         id="search"
                         type="text"
                         placeholder="Search"
+                        value={searchVal}
+                        onChange={handleSearchChange}
                     />
                     <Search size={22} className="absolute top-1.5 right-3"/>
                 </form>

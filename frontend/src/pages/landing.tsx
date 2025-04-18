@@ -11,6 +11,8 @@ function LandingPage() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [userId, setUserId] = useState('');
+  const [items, setItems] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const color = "black";
 
@@ -31,7 +33,8 @@ function LandingPage() {
         const {userId, username, firstname, lastname} = await resp.json();
         setFirstName(firstname);
         setLastName(lastname);
-        // make states for userId and username when you need them
+        setUserId(userId);
+        // make states for username when you need them
         console.log('Logged in as:', userId, username, firstname, lastname);
       } catch {
         navigate('/login');
