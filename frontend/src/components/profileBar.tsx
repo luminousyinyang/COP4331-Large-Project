@@ -48,60 +48,60 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                 </div>
                                 <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
                                     <DialogHeader >
-                                        <form action="" className="relative flex flex-col gap-3.5">
-                                            <DialogClose className="cancel-btn absolute w-[35px] h-[35px] -top-1 -right-11 text-white">
-                                                <X className="w-6 h-6 absolute top-1 right-1.75"></X>
-                                            </DialogClose>
-
-                                            <DialogTitle className="text-xl font-black flex justify-center">Edit Profile</DialogTitle>
-                                            <div className="border border-[var(--bg-navy)]"></div>
-                                            
-                                            <div>
-                                                <h2 className="font-bold">First Name</h2>
-                                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
-                                                    id="profile-first-name"
-                                                    type="text"
-                                                />
+                                        <form action="" className="relative flex flex-col justify-between h-full">
+                                            <div className="relative flex flex-col gap-3.5">
+                                                <DialogClose className="cancel-btn absolute w-[35px] h-[35px] -top-1 -right-11 text-white">
+                                                    <X className="w-6 h-6 absolute top-1 right-1.75"></X>
+                                                </DialogClose>
+                                                <DialogTitle className="text-xl font-black flex justify-center">Edit Profile</DialogTitle>
+                                                <div className="border border-[var(--bg-navy)]"></div>
+                                                
+                                                <div>
+                                                    <h2 className="font-bold">First Name</h2>
+                                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                                        id="profile-first-name"
+                                                        type="text"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h2 className="font-bold">Last Name</h2>
+                                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                                        id="profile-last-name"
+                                                        type="text"
+                                                    />
+                                                </div>
+                                                
+                                                <div>
+                                                    <h2 className="font-bold">Bio</h2>
+                                                    <Textarea
+                                                        id="profile-bio"
+                                                        className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h2 className="font-bold">Instagram Link</h2>
+                                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                                        id="instagram-link"
+                                                        type="text"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h2 className="font-bold">Spotify Link</h2>
+                                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                                        id="spotify-link"
+                                                        type="text"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h2 className="font-bold">Twitter/X Link</h2>
+                                                    <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
+                                                        id="twitter-link"
+                                                        type="text"
+                                                    />
+                                                </div>
+                                                
+                                                <DialogDescription></DialogDescription>
                                             </div>
-                                            <div>
-                                                <h2 className="font-bold">Last Name</h2>
-                                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
-                                                    id="profile-last-name"
-                                                    type="text"
-                                                />
-                                            </div>
-                                            
-                                            <div>
-                                                <h2 className="font-bold">Bio</h2>
-                                                <Textarea 
-                                                    id="profile-bio"
-                                                    className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
-                                                />
-                                            </div>
-
-                                            <div>
-                                                <h2 className="font-bold">Instagram Link</h2>
-                                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
-                                                    id="instagram-link"
-                                                    type="text"
-                                                />
-                                            </div>
-                                            <div>
-                                                <h2 className="font-bold">Spotify Link</h2>
-                                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
-                                                    id="spotify-link"
-                                                    type="text"
-                                                />
-                                            </div>
-                                            <div>
-                                                <h2 className="font-bold">Twitter/X Link</h2>
-                                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
-                                                    id="twitter-link"
-                                                    type="text"
-                                                />
-                                            </div>
-                                            
-                                            <DialogDescription></DialogDescription>
                                             <div className="flex justify-between">
                                                 <DialogClose className="cancel-btn w-[125px] h-[37px] flex justify-center items-center ">Cancel</DialogClose>
                                                 <DialogClose className=" w-[125px] h-[37px] flex justify-center items-center text-white ">Edit</DialogClose>
