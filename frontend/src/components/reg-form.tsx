@@ -18,13 +18,13 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
   const [password, setPassword] = useState('')
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
-  const [error, setError]       = useState('')
+  const [error, setError] = useState('')
   const navigate = useNavigate()
 
 
   const handleSignUp = async () => {
     try {
-      const resp = await fetch('http://localhost:5000/auth/register', {
+      const resp = await fetch('/api/auth/register', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -38,7 +38,7 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
       }
 
       // logged in
-      navigate('/loggedIn')
+      navigate('/home')
 
     } catch (err) {
       // setting error message for div in the form
@@ -48,35 +48,35 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
 
 
 
-  
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
-      <CardHeader className="text-center">
+        <CardHeader className="text-center">
           <CardTitle className="text-xl">Register</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
             <div className="grid gap-6">
               <div className="grid gap-3">
-                  <Label htmlFor="firstName">First Name</Label>
-                    <Input
-                      id="firstName"
-                      type="text"
-                      onChange={(e) => setFirstname(e.target.value)}
-                      value={firstname}
-                    required/>
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  onChange={(e) => setFirstname(e.target.value)}
+                  value={firstname}
+                  required />
               </div>
 
               <div className="flex flex-col gap-4">
                 <div className="grid gap-3">
                   <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      type="text"
-                      onChange={(e) => setLastname(e.target.value)}
-                      value={lastname}
-                      required />
+                  <Input
+                    id="lastName"
+                    type="text"
+                    onChange={(e) => setLastname(e.target.value)}
+                    value={lastname}
+                    required />
                 </div>
                 <div className="grid gap-3">
                   <Label htmlFor="username">Username</Label>
@@ -95,13 +95,13 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
                     <Label htmlFor="password">Password</Label>
                   </div>
                   <div className="relative">
-                    <Input 
-                    id="password" 
-                    type="password" 
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    required />
-                    <Eye size={22} className="absolute top-2 right-4"/>
+                    <Input
+                      id="password"
+                      type="password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      required />
+                    <Eye size={22} className="absolute top-2 right-4" />
                   </div>
                 </div>
 

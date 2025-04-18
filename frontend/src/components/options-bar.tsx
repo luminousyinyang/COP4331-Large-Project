@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { X } from 'react-feather';
@@ -19,6 +19,7 @@ import {
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
     const [imgPreview, setImgPreview] = useState<string | null>("");
     const [open, setOpen] = useState(false);
+    const [searchVal, setSearchVal] = useState('');
 
     // Saves the file taken from file input, and stores it in imgPreview
     // Shows the image preview 
@@ -38,6 +39,11 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
         }
       }, [open, imgPreview]);
 
+    function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+        event.preventDefault();
+        setSearchVal(event.target.value);
+    }
+
     return (
         <div className={cn("flex flex-col gap-3 w-[780px]", className)} {...props}>
             <h2 className="text-3xl font-black text-[var(--bg-navy)]">My Wishlist</h2>
@@ -47,6 +53,8 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                         id="search"
                         type="text"
                         placeholder="Search"
+                        value={searchVal}
+                        onChange={handleSearchChange}
                     />
                     <Search size={22} className="absolute top-1.5 right-3"/>
                 </form>

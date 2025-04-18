@@ -214,25 +214,26 @@ router.post('/getprodinfo', async (req, res) => {
 
         const $ = cheerio.load(response.data);
         let image, title, description;
+        const isAmazon = url.includes("a.co") || url.includes("amazon.com")
 
-        if(url.includes("a.co") || url.includes("amazon.com")) {
-            image = $('img#landingImage').attr('src');
-            title = $("meta[name='title']").attr('content');
-            description = $("meta[name='description']").attr('content');
+        if(isAmazon) {
+            image = $('img#landingImage');
+            title = $("meta[name='title']");
+            description = $("meta[name='description']");
         } else {
-            image = $("meta[property='og:image']").attr('content');
-            title = $("meta[property='og:title']").attr('content');
-            description = $("meta[property='og:description']").attr('content');
+            image = $("meta[property='og:image']");
+            title = $("meta[property='og:title']");
+            description = $("meta[property='og:description']");
         }
 
-        if(image === "" || title === "" || description === "") {
+        if(image.length == 0 || title.length == 0 || description.length == 0) {
             return res.status(404).json({message: "unable to fetch product data"});
         }
 
         let responseBody = {
-            title: title,
-            description: description,
-            image: image
+            title: title.attr('content'),
+            description: description.attr('content'),
+            image: isAmazon ? image.attr('src') : image.attr('content')
         }
 
         res.status(200).json({ message: "fetch success", info: responseBody });

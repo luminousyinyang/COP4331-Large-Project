@@ -11,8 +11,6 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/home" element={<LandingPage />} />
-      {/* can kill the loggedin page when there wishlist gallery is created */}
-      <Route path="/loggedIn" element={<LoggedIn />} />
     </Routes>
   )
 }

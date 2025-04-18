@@ -12,6 +12,7 @@ import {
     DialogTrigger,
     DialogClose,
   } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
   
 type ProfileBarProps = {
     className?: string;
@@ -25,6 +26,27 @@ type ProfileBarProps = {
   } & React.HTMLAttributes<HTMLDivElement>;
 
 function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, instaLink, spotifyLink, twitterLink, ...props }: ProfileBarProps) {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+          const resp = await fetch('/api/auth/logout', {
+            credentials: 'include'
+          })
+    
+          const data = await resp.json()
+          if (!resp.ok) {
+            throw new Error(data.message)
+          }
+    
+          navigate('/login')
+    
+        } catch (err) {
+          console.log(err)
+        }
+    }
+
+
     return (
         <div className={cn("flex flex-col items-center gap-4 w-[400px] bg-[var(--bg-pale-white)] border rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)]", className)} {...props}>
             <div className="w-[380px] pt-3">
@@ -105,7 +127,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                     </DialogHeader>
                                 </DialogContent>
                             </Dialog>
-                            <Button type="button" className="w-[155px] flex justify-center">
+                            <Button type="button" className="w-[155px] flex justify-center" onClick={handleLogout}>
                                 Logout
                             </Button>
                             <DialogDescription></DialogDescription>
