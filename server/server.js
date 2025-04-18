@@ -11,10 +11,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
-  }));
+}));
 
 //for now
-const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DB || ''}?retryWrites=true&w=majority&appName=${process.env.MONGO_APP_NAME}`;
+const mongoURI = `${process.env.MONGO_URI}`;
 
 console.log(mongoURI);
 app.use(express.json());
