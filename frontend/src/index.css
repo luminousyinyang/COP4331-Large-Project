@@ -1,12 +1,68 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --bg-salmon: rgba(255, 150, 140, 1);
+  --bg-salmon: rgba(255, 113, 100, 1);
   --bg-navy: rgba(22, 43, 82, 1);
+  --bg-pale-white: rgba(254, 237, 215, 1);
+  --bg-sandpaper: rgba(255, 245, 225, 1);
 }
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-navy) var(--bg-pale-white);
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(-20%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(20%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-bottom {
+  0% {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+}
+
+.slide-in-bottom {
+  animation: slide-in-bottom 0.5s ease-out forwards;
+}
+
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -68,6 +124,7 @@ body {
   margin: 0;
   min-height: 100vh;
   width: 100%;
+  overflow: auto;
 }
 
 
@@ -84,16 +141,33 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #f59890;
+  /* background-color: #f59890; */
+  background-color: var(--bg-salmon);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.35s ease-in-out;
 }
 button:hover {
-  border-color: #646cff;
+  /* border-color: #646cff; */
+  background-color: var(--bg-navy);
+  border-color: var(--bg-navy);
+  color: white;
 }
+
+.cancel-btn {
+  background-color: var(--bg-navy);
+  border-color: var(--bg-navy);
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: var(--bg-salmon);
+  border-color: var(--bg-salmon);
+  color: white;
+}
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* outline: 4px auto -webkit-focus-ring-color; */
 }
 
 @media (prefers-color-scheme: light) {
