@@ -19,28 +19,28 @@ function LandingPage() {
   useEffect(() => {
     setLoading(true);
 
-    const checkSession = async () => {
-      try {
-        const resp = await fetch('/api/auth/profile', {
-          credentials: 'include'
-        });
+    // const checkSession = async () => {
+    //   try {
+    //     const resp = await fetch('/api/auth/profile', {
+    //       credentials: 'include'
+    //     });
 
-        if (!resp.ok) {
-          navigate('/login');
-          return;
-        }
+    //     if (!resp.ok) {
+    //       navigate('/login');
+    //       return;
+    //     }
 
-        const {userId, username, firstname, lastname} = await resp.json();
-        setFirstName(firstname);
-        setLastName(lastname);
-        setUserId(userId);
-        // make states for username when you need them
-        console.log('Logged in as:', userId, username, firstname, lastname);
-      } catch {
-        navigate('/login');
-      }
-    }
-    checkSession();
+    //     const {userId, username, firstname, lastname} = await resp.json();
+    //     setFirstName(firstname);
+    //     setLastName(lastname);
+    //     setUserId(userId);
+    //     // make states for username when you need them
+    //     console.log('Logged in as:', userId, username, firstname, lastname);
+    //   } catch {
+    //     navigate('/login');
+    //   }
+    // }
+    // checkSession();
     
 
     setTimeout(() => {
