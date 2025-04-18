@@ -104,7 +104,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                             </div>
                                             <div className="flex justify-between">
                                                 <DialogClose className="cancel-btn w-[125px] h-[37px] flex justify-center items-center ">Cancel</DialogClose>
-                                                <DialogClose className=" w-[125px] h-[37px] flex justify-center items-center text-white ">Edit</DialogClose>
+                                                <DialogClose className=" w-[125px] h-[37px] flex justify-center items-center text-white ">Save</DialogClose>
                                             </div>
                                         </form>
                                     </DialogHeader>
