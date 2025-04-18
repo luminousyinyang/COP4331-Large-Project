@@ -36,8 +36,8 @@ function LandingPage() {
           :
           <div className="flex flex-row justify-between overflow-visible w-full min-h-screen bg-[var(--bg-sandpaper)]" >
               <div className="flex flex-col gap-5">
-                <OptionsBar  className="pt-10 ml-25"/>
-                <ItemContainer  className="ml-25"/>
+                <OptionsBar  className="slide-in-bottom pt-10 ml-25"/>
+                <ItemContainer  className="slide-in-right ml-25"/>
               </div>
               <ProfileBar 
                 image={"Image"}
@@ -48,7 +48,7 @@ function LandingPage() {
                 instaLink={""} 
                 spotifyLink={""} 
                 twitterLink={""}
-                className="h-screen sticky top-0 right-0" 
+                className="slide-in-left h-screen sticky top-0 right-0" 
               />
           </div>
         }
