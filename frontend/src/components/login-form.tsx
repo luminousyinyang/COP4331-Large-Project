@@ -36,7 +36,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       }
 
       // logged in
-      navigate('/loggedIn')
+      navigate('/home')
 
     } catch (err) {
       // setting error message for div in the form

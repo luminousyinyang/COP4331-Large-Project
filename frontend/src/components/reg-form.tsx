@@ -24,7 +24,6 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
 
   const handleSignUp = async () => {
     try {
-      console.log('handleSignUp');
       const resp = await fetch('/api/auth/register', {
         method: 'POST',
         credentials: 'include',
@@ -39,7 +38,7 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
       }
 
       // logged in
-      navigate('/loggedIn')
+      navigate('/home')
 
     } catch (err) {
       // setting error message for div in the form
