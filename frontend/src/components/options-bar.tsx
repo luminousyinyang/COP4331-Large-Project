@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
 import { X } from 'react-feather';
 import { Filter, PlusSquare, Search } from 'react-feather';
 import Dropdown from "@/components/ui/checkbox";
@@ -15,18 +14,14 @@ import {
     DialogTrigger,
     DialogClose,
 } from "@/components/ui/dialog";
-// import {
-//     Card,
-//     CardContent,
-//     CardDescription,
-//     CardHeader,
-//     CardTitle,
-// } from "@/components/ui/card";
+
 
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
-    const [imgPreview, setImgPreview] = useState<string>("");
+    const [imgPreview, setImgPreview] = useState<string | null>("");
     const [open, setOpen] = useState(false);
 
+    // Saves the file taken from file input, and stores it in imgPreview
+    // Shows the image preview 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -35,6 +30,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
         }
       };
 
+      // Removes the img preview when user leaves/exit out of the add dialog 
       useEffect(() => {
         if (!open && imgPreview) {
           URL.revokeObjectURL(imgPreview);
@@ -78,8 +74,8 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                                 <div className="border border-[var(--bg-navy)]"></div>
 
                                 <img
-                                    src={imgPreview}
-                                    alt="Image"
+                                    src={imgPreview ?? ""}
+                                    alt={imgPreview ? "Image" : "Invalid Image"}
                                     className="w-full h-[120px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
                                 />
                                 <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
