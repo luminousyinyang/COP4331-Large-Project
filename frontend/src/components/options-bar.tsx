@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 // import { Button } from "@/components/ui/button";
@@ -16,6 +17,15 @@ import {
 } from "@/components/ui/dialog";
 
 function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
+    const [imgPreview, setImgPreview] = useState<string>("");
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (!open) {
+          setImgPreview(undefined);
+        }
+    }, [open]);
+
     return (
         <div className={cn("flex flex-col gap-3 w-[780px]", className)} {...props}>
             <h2 className="text-3xl font-black">My Wishlist</h2>
@@ -33,7 +43,7 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                     <Filter size={22} color="white" className="absolute top-1.5 right-3"/>
                 </div>
                 
-                <Dialog>
+                <Dialog open={open} onOpenChange={setOpen}>
                     <div className="relative">
                         <DialogTrigger className="w-[155px] h-[37px] flex justify-start items-center text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]">
                             Add
@@ -50,10 +60,19 @@ function OptionsBar({ className, ...props }: React.ComponentProps<"div">) {
                             <div className="border border-[var(--bg-navy)]"></div>
 
                             <img
-                                src="sdfsf.ssdf"
-                                alt="Upload Photo"
-                                className="w-full h-[160px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
+                                src={imgPreview}
+                                alt="Image"
+                                className="w-full h-[120px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
                             />
+                            <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
+                                id="item-picture"
+                                type="file"
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    setImgPreview(file ? URL.createObjectURL(file) : undefined);
+                                }}
+                            />
+
 
                             <div>
                                 <h2 className="font-bold">Product Link</h2>

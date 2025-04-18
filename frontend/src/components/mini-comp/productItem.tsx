@@ -1,4 +1,3 @@
-import { XSquare } from 'react-feather';
 import { X } from 'react-feather';
 import {
     Dialog,
