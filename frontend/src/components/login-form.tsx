@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
+  // CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -45,15 +45,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     }
   }
 
-  // const handleEyeIconChange = () => {
-
-  // }
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="pt-0 border-0">
         <div className="text-4xl bg-[var(--bg-salmon)] h-[190px] flex justify-center items-center rounded-t-xl">
-            <p className="font-bold"> Welcome </p>
+            <p className="font-bold"> Welcome</p>
         </div>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
@@ -99,7 +95,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 )}
 
                 <Button type="button" className="w-full" onClick={handleLogin}>
-                  Register
+                  Sign in
                 </Button>
               </div>
               <div className="text-center text-sm">

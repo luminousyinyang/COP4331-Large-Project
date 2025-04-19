@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
-import { Eye } from 'react-feather';
+import { Eye, EyeOff } from 'react-feather';
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -19,6 +19,7 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const navigate = useNavigate()
 
 
@@ -97,11 +98,11 @@ export function RegForm({ className, ...props }: React.ComponentProps<"div">) {
                   <div className="relative">
                     <Input
                       id="password"
-                      type="password"
+                      type={ showPassword ? "text" : "password"}
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
                       required />
-                    <Eye size={22} className="absolute top-2 right-4" />
+                    { showPassword ? <Eye size={22} onClick={() => setShowPassword(!showPassword)} className="absolute top-2 right-4 cursor-pointer" /> : <EyeOff size={22} onClick={() => setShowPassword(!showPassword)} className="absolute top-2 right-4  cursor-pointer" />}
                   </div>
                 </div>
 
