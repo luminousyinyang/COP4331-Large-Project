@@ -18,6 +18,7 @@ import { useState } from "react"
 interface ItemBarProps extends React.ComponentProps<"div"> {
   onEdit?: () => void
   onDelete?: () => void
+  onGoBack?: () => void
   item?: {
     name: string
     price: string
@@ -27,7 +28,7 @@ interface ItemBarProps extends React.ComponentProps<"div"> {
   }
 }
 
-export function ItemBar({ className, onEdit, onDelete, item, ...props }: ItemBarProps) {
+export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props }: ItemBarProps) {
   const navigate = useNavigate()
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [editForm, setEditForm] = useState({
@@ -35,13 +36,26 @@ export function ItemBar({ className, onEdit, onDelete, item, ...props }: ItemBar
     price: "",
     tag: "",
     description: "",
-    imageUrl: ""
+    image: null as File | null
   })
 
   const handleEditClick = () => {
+    if (item) {
+      setEditForm({
+        name: item.name,
+        price: item.price,
+        tag: item.tags?.[0]?.name || "",
+        description: item.description,
+        image: null
+      })
+    }
+    setIsEditOpen(true)
   }
 
   const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // temp 
+    setIsEditOpen(false)
   }
 
   const handleEditChange = (
@@ -50,17 +64,19 @@ export function ItemBar({ className, onEdit, onDelete, item, ...props }: ItemBar
     const { id, value } = e.target
     setEditForm((prev) => ({ ...prev, [id]: value }))
   }
-
+  
   return (
+    // back
     <div className={cn("flex justify-between items-center w-full px-6 py-6", className)} {...props}>
       <button 
         className="bg-[var(--bg-salmon)]] text-white hover:bg-[var(--bg-navy)] hover:border-[var(--bg-navy)] h-[45px] flex items-center gap-2 px-6 relative rounded-full border border-transparent transition-all duration-350 ease-in-out shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"
-        onClick={() => navigate(-1)}
+        onClick={onGoBack || (() => navigate('/landing'))}
       >
         <ArrowLeft size={22} />
         <span className="text-lg">Go Back</span>
       </button>
-      
+
+      {/* edit */}
       <div className="flex gap-4">
         <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
           <DialogTrigger asChild>
@@ -83,19 +99,31 @@ export function ItemBar({ className, onEdit, onDelete, item, ...props }: ItemBar
                 <div className="border border-[var(--bg-navy)]" />
 
                 <div>
-                  <h2 className="font-bold">Image URL</h2>
-                  <Input
-                    id="imageUrl"
-                    type="text"
-                    value={editForm.imageUrl}
-                    onChange={handleEditChange}
-                    className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
-                  />
-                  <img
-                    src={editForm.imageUrl}
-                    alt="Product preview"
-                    className="mt-2 w-full h-[120px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
-                  />
+                  <h2 className="font-bold">Image</h2>
+                  <div className="mt-2 w-full h-[120px] bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl relative overflow-hidden">
+                    {/* image upload, temporary object  */}
+                    {editForm.image ? (
+                      <img
+                        src={URL.createObjectURL(editForm.image)}
+                        alt="Product preview"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-[var(--bg-navy)]">No image selected</span>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setEditForm(prev => ({ ...prev, image: e.target.files![0] }));
+                        }
+                      }}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -158,6 +186,7 @@ export function ItemBar({ className, onEdit, onDelete, item, ...props }: ItemBar
           </DialogContent>
         </Dialog>
 
+        {/* delete confirm */}
         <Dialog>
           <DialogTrigger asChild>
             <button 
