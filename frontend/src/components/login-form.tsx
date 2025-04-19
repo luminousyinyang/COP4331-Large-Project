@@ -11,7 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, User } from 'react-feather';
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import giftBox from "../assets/giftopening.webm";
 
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -48,11 +49,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="pt-0 border-0">
-        <div className="text-4xl bg-[var(--bg-salmon)] h-[190px] flex justify-center items-center rounded-t-xl">
-            <p className="font-bold"> Welcome</p>
+        <div className="text-3xl bg-[var(--bg-salmon)] h-[210px] flex justify-start items-center rounded-t-xl pb-6 px-11">
+            <p className="font-bold text-white pt-10">Welcome To My Gerb Stash</p>
+            <video autoPlay loop muted playsInline>
+              <source  src={giftBox} type="video/webm" />
+                  Your browser does not support the video tag.
+            </video>
         </div>
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
@@ -95,7 +100,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 )}
 
                 <Button type="button" className="w-full" onClick={handleLogin}>
-                  Sign in
+                  Login
                 </Button>
               </div>
               <div className="text-center text-sm">
