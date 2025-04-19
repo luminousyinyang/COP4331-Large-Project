@@ -3,21 +3,23 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
+  // CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, User } from 'react-feather';
+import { Eye, EyeOff, User } from 'react-feather';
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import giftBox from "../assets/giftopening.webm";
 
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const navigate = useNavigate()
 
 
@@ -44,23 +46,23 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     }
   }
 
-
-
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-
-      <Card className="pt-0 h-[600px] w-[500px]">
-        <div className="text-4xl bg-[var(--bg-salmon)] h-[240px] flex justify-center items-center rounded-t-xl">
-          <p className=""> Welcome </p>
+      <Card className="pt-0 border-0">
+        <div className="text-3xl bg-[var(--bg-salmon)] h-[210px] flex justify-start items-center rounded-t-xl pb-6 px-11">
+            <p className="font-bold text-white pt-10">Welcome To My Gerb Stash</p>
+            <video autoPlay loop muted playsInline>
+              <source  src={giftBox} type="video/webm" />
+                  Your browser does not support the video tag.
+            </video>
         </div>
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
-            <div className="grid gap-6 flex justify-center">
-              <div className="flex flex-col gap-4 w-[330px]">
+            <div className="grid gap-6">
+              <div className="flex flex-col gap-4">
                 <div className="grid gap-3">
                   <Label htmlFor="username">Username</Label>
                   <Input
@@ -77,29 +79,30 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   <div className="flex items-center relative">
                     <Label htmlFor="password">Password</Label>
                     <User size={22} className="absolute bottom-11 right-4" />
-
                   </div>
                   <div className="relative">
                     <Input
                       id="password"
-                      type="password"
+                      type={ showPassword ? "text" : "password"}
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
-                      required />
-                    <Eye size={22} className="absolute top-2 right-4" />
+                      required 
+                    />
+                    { showPassword ? <Eye size={22} onClick={() => setShowPassword(!showPassword)} className="absolute top-2 right-4 cursor-pointer" /> : <EyeOff size={22} onClick={() => setShowPassword(!showPassword)} className="absolute top-2 right-4  cursor-pointer" />}
+                    
                   </div>
                 </div>
+
+                {error && (
+                  <div className="text-red-600 text-center">
+                    {error}
+                  </div>
+                )}
+
+                <Button type="button" className="w-full" onClick={handleLogin}>
+                  Login
+                </Button>
               </div>
-
-              {error && (
-                <div className="text-red-600 text-center">
-                  {error}
-                </div>
-              )}
-
-              <Button type="button" className="w-[155px] justify-self-center" onClick={handleLogin}>
-                Login
-              </Button>
               <div className="text-center text-sm">
                 Don't have an account?{" "}
                 <a href="./signup" className="underline underline-offset-4">
