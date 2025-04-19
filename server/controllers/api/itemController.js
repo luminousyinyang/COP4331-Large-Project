@@ -39,26 +39,26 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.post('/uploadimg',fileUpload({
+router.post('/uploadimg', fileUpload({
     limits: {
         fileSize: 10000000,
         safeFileNames: true,
     },
     abortOnLimit: true,
-}) ,async (req, res) => {
+}), async (req, res) => {
     // first obtains the image from the request
 
     const { image } = req.body;
 
     // checks if there is a file and if there is a file, it is considered
     // an image
-    if(!image) {
-        return res.status(400).json({message: "Image missing"});
+    if (!image) {
+        return res.status(400).json({ message: "Image missing" });
     }
 
     if (!/^image/.test(image.mimetype)) {
-        return res.status(400).json({message: "Invalid file type"});  
-    } 
+        return res.status(400).json({ message: "Invalid file type" });
+    }
 
     // new filename to ensure we do not overwrite other images
     const fileExtension = path.extname(image.name);
@@ -117,8 +117,8 @@ router.post('/delete', async (req, res) => {
 
     // checks if the user has access to this item
     const itemUserID = await Item.findById(itemID);
-    if(itemUserID.userID != userID) {
-        return res.status(403).json({message: "Forbidden: Item not for this user"});
+    if (itemUserID.userID != userID) {
+        return res.status(403).json({ message: "Forbidden: Item not for this user" });
     }
 
     try {
@@ -216,7 +216,7 @@ router.post('/getprodinfo', async (req, res) => {
         let image, title, description;
         const isAmazon = url.includes("a.co") || url.includes("amazon.com")
 
-        if(isAmazon) {
+        if (isAmazon) {
             image = $('img#landingImage');
             title = $("meta[name='title']");
             description = $("meta[name='description']");
@@ -226,8 +226,8 @@ router.post('/getprodinfo', async (req, res) => {
             description = $("meta[property='og:description']");
         }
 
-        if(image.length == 0 || title.length == 0 || description.length == 0) {
-            return res.status(404).json({message: "unable to fetch product data"});
+        if (image.length == 0 || title.length == 0 || description.length == 0) {
+            return res.status(404).json({ message: "unable to fetch product data" });
         }
 
         let responseBody = {
@@ -243,5 +243,21 @@ router.post('/getprodinfo', async (req, res) => {
         return res.status(404).json({ message: "unexpected error" });
     }
 })
+
+router.get('/getitems', async (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'Missing userId parameter' });
+    }
+
+    try {
+        const items = await Item.find({ userID: userId });
+        res.status(200).json({ message: 'Items retrieved successfully', items });
+    } catch (err) {
+        console.error('Error fetching items:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 module.exports = router;
