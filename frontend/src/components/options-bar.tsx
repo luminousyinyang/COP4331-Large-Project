@@ -26,6 +26,8 @@ interface FormState {
 }
 
 const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) => {
+
+    const [imgPreview, setImgPreview] = useState<string | null>("");
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
     const [form, setForm] = useState<FormState>({
@@ -36,8 +38,24 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         productDesc: '',
     });
 
+    // Saves the file taken from file input, and stores it in imgPreview
+    // Shows the image preview 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const previewURL = URL.createObjectURL(file);
+            setImgPreview(previewURL);
+        }
+    };
+
+
+
     // Debug userId
     useEffect(() => {
+        if (!open && imgPreview) {
+            URL.revokeObjectURL(imgPreview);
+            setImgPreview(null);
+        }
         console.log('OptionsBar userId:', userId);
     }, [userId]);
 
@@ -132,6 +150,11 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                 <div className="border border-[var(--bg-navy)]" />
 
                                 {/* Image Preview (Link) */}
+                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
+                                    id="item-picture"
+                                    type="file"
+                                    onChange={handleImageChange}
+                                />
                                 <img
                                     src={form.productLink || ''}
                                     alt={form.productLink ? 'Product Image' : 'No Image'}
