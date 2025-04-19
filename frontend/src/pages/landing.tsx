@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { OptionsBar } from "@/components/options-bar";
+import { OptionsBarComponent } from "@/components/options-bar";
 import { ItemContainer } from "@/components/items-container";
 import { ProfileBar } from "@/components/profileBar";
 import SyncLoader from "react-spinners/SyncLoader";
@@ -34,6 +34,7 @@ function LandingPage() {
         setUserId(userId);
 
         // Fetch items for the authenticated user
+        console.log(userId);
         const itemsResp = await fetch(`/api/item/getitems?userId=${userId}`);
         if (!itemsResp.ok) {
           console.error('Failed to fetch items');
@@ -68,7 +69,7 @@ function LandingPage() {
       ) : (
         <div className="flex flex-row justify-between overflow-visible w-full min-h-screen bg-[var(--bg-sandpaper)]">
           <div className="flex flex-col gap-5">
-            <OptionsBar className="slide-in-bottom pt-10 ml-25" />
+            <OptionsBarComponent className="slide-in-bottom pt-10 ml-25" userId={userId} />
             <ItemContainer className="slide-in-right ml-25" items={items} />
           </div>
           <ProfileBar
