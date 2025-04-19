@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, User } from 'react-feather';
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
-import giftBox from "../assets/giftopening.webm";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -49,12 +49,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="pt-0 border-0">
-        <div className="text-3xl bg-[var(--bg-salmon)] h-[210px] flex justify-start items-center rounded-t-xl pb-6 px-11">
-            <p className="font-bold text-white pt-10">Welcome To My Gerb Stash</p>
-            <video autoPlay loop muted playsInline>
-              <source  src={giftBox} type="video/webm" />
-                  Your browser does not support the video tag.
-            </video>
+        <div className="text-3xl bg-[var(--bg-salmon)] h-[210px] flex justify-center items-center rounded-t-xl pl-12 pr-6">
+            <p className="font-bold text-white">Welcome To My Gerb Stash</p>
+            <DotLottieReact
+              src="https://lottie.host/3d94a8d8-3601-4d45-9266-c0b464aeea36/UUGkKP8iNb.lottie"
+              loop
+              autoplay
+              style={{width: "300px", height: "200px"}}
+            />
         </div>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
