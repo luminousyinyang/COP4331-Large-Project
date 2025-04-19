@@ -12,7 +12,8 @@ router.post('/create', async (req, res) => {
     const { userID, tagID, description, imageURL, price, title } = req.body;
 
     try {
-        if (!userID || !tagID || !description || !imageURL || price === undefined || !title) {
+        if (!userID || !description || !imageURL || price === undefined || !title) {
+            console.log(req.body);
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -24,11 +25,11 @@ router.post('/create', async (req, res) => {
 
         const item = new Item({
             userID,
-            tagID,
             description,
             imageURL,
             price,
             title,
+            ...(tagID && { tagID }), // Only include tagID if it is set
         });
 
         await item.save();

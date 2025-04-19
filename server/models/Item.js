@@ -10,7 +10,7 @@ const itemSchema = new mongoose.Schema({
     tagID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',
-        required: true,
+        required: false,
     },
     description: {
         type: String,
