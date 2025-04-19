@@ -3,7 +3,7 @@ import LoginPage from "./pages/login"
 import SignupPage from "./pages/signup"
 import LandingPage from "./pages/landing"
 // import LoggedIn from "./pages/loggedIn"
-
+import ItemPage from "./pages/items"
 function App() {
   return (
     <Routes>
@@ -11,6 +11,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/home" element={<LandingPage />} />
+      <Route path="/items" element={<ItemPage />} />
     </Routes>
   )
 }
