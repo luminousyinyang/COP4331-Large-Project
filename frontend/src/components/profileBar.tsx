@@ -11,9 +11,12 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogClose,
-  } from "@/components/ui/dialog";
+} from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
-  
+
+import placeholder from "../assets/placeholder.jpg";
+
+
 type ProfileBarProps = {
     className?: string;
     image: string;
@@ -23,26 +26,26 @@ type ProfileBarProps = {
     instaLink: string;
     spotifyLink: string;
     twitterLink: string;
-  } & React.HTMLAttributes<HTMLDivElement>;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, instaLink, spotifyLink, twitterLink, ...props }: ProfileBarProps) {
+function ProfileBar({ className, image, imgDesc, firstName, lastName, about, instaLink, spotifyLink, twitterLink, ...props }: ProfileBarProps) {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
-          const resp = await fetch('/api/auth/logout', {
-            credentials: 'include'
-          })
-    
-          const data = await resp.json()
-          if (!resp.ok) {
-            throw new Error(data.message)
-          }
-    
-          navigate('/login')
-    
+            const resp = await fetch('/api/auth/logout', {
+                credentials: 'include'
+            })
+
+            const data = await resp.json()
+            if (!resp.ok) {
+                throw new Error(data.message)
+            }
+
+            navigate('/login')
+
         } catch (err) {
-          console.log(err)
+            console.log(err)
         }
     }
 
@@ -54,9 +57,9 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                     <DialogTrigger className="w-0 h-0 flex justify-center items-center !bg-[var(--bg-sandpaper)] !border-0">
                         <i className="inline-block text-2xl bi bi-gear-fill hover:text-[var(--bg-salmon)] hover:scale-125 hover:rotate-180 transition-all duration-400 ease-out cursor-pointer"></i>
                     </DialogTrigger>
-                    <DialogContent className="bg-[var(--bg-sandpaper)]"> 
+                    <DialogContent className="bg-[var(--bg-sandpaper)]">
                         <DialogHeader>
-                            <DialogTitle className="mb-4 flex justify-center">Settings</DialogTitle>                            
+                            <DialogTitle className="mb-4 flex justify-center">Settings</DialogTitle>
                             <Dialog>
                                 <div className="relative">
                                     <DialogTrigger className="w-[155px] h-[37px] flex justify-center items-center text-white">
@@ -72,7 +75,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                                 </DialogClose>
                                                 <DialogTitle className="text-xl font-black flex justify-center">Edit Profile</DialogTitle>
                                                 <div className="border border-[var(--bg-navy)]"></div>
-                                                
+
                                                 <div>
                                                     <h2 className="font-bold">First Name</h2>
                                                     <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] "
@@ -87,7 +90,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                                         type="text"
                                                     />
                                                 </div>
-                                                
+
                                                 <div>
                                                     <h2 className="font-bold">Bio</h2>
                                                     <Textarea
@@ -116,7 +119,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                                                         type="text"
                                                     />
                                                 </div>
-                                                
+
                                                 <DialogDescription></DialogDescription>
                                             </div>
                                             <div className="flex justify-between">
@@ -134,10 +137,10 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                         </DialogHeader>
                     </DialogContent>
                 </Dialog>
-            
+
             </div>
-            <img 
-                src={image} 
+            <img
+                src={placeholder}
                 alt={imgDesc}
                 className="text-center w-[240px] h-[220px] text-white border rounded-xl bg-[var(--bg-navy)]">
             </img>
@@ -156,7 +159,7 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
                         <p className="overflow-hidden h-[22px]">instagram-example.link</p>
                         <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
                     </a>
-                    
+
                     <a href={spotifyLink} className="flex gap-5 cursor-pointer group relative">
                         <i className="bi bi-spotify"></i>
                         <p className="overflow-hidden h-[22px]">spotify-example.link</p>
@@ -174,6 +177,6 @@ function ProfileBar ({ className, image, imgDesc, firstName, lastName, about, in
 
         </div>
     );
-  }
+}
 
 export { ProfileBar };
