@@ -264,7 +264,7 @@ router.get('/getitems', async (req, res) => {
     }
 
     try {
-        const items = await Item.find({ userID: userId });
+        const items = await Item.find({ userID: userId }).sort({ createdAt: -1 });
         res.status(200).json({ message: 'Items retrieved successfully', items });
     } catch (err) {
         console.error('Error fetching items:', err);
