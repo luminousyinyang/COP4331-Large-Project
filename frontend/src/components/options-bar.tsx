@@ -66,6 +66,36 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         setForm((prev) => ({ ...prev, [id]: value }));
     };
 
+    useEffect(() => {
+        const fetchProductInfo = async () => {
+            if (!form.productLink) return;
+
+            try {
+                const response = await fetch('/api/item/getprodinfo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: form.productLink }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log('Product info:', data);
+                    setImgPreview(data.info.image); // ✅ update image src
+                } else {
+                    console.error('Error fetching product info:', data.message);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        };
+
+        fetchProductInfo();
+    }, [form.productLink]);
+
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -81,7 +111,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
             title: productName,
             price: productPrice,
             description: productDesc,
-            imageURL: productLink, // Sending the link instead of a file
+            //link to img return by the api
+            imageURL: imgPreview,
         };
 
         try {
@@ -156,10 +187,11 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     onChange={handleImageChange}
                                 />
                                 <img
-                                    src={form.productLink || ''}
-                                    alt={form.productLink ? 'Product Image' : 'No Image'}
+                                    src={imgPreview || ''}
+                                    alt={imgPreview ? 'Product Image' : 'No Image'}
                                     className="w-full h-[120px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
                                 />
+
 
                                 <div>
                                     <h2 className="font-bold">Product Link</h2>
