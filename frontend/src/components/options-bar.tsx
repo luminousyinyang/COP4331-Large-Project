@@ -43,7 +43,7 @@ interface Item {
     price: number; // Changed to number
     description: string;
     imageURL: string;
-    tagID?: string;
+    tag?: string;
 }
 
 // Form component
@@ -165,7 +165,7 @@ const AddItemForm: React.FC<{
         formData.append('title', productName);
         formData.append('price', priceValue.toString());
         formData.append('description', productDesc);
-        formData.append('tagID', productTag || '');
+        formData.append('tag', productTag || '');
         if (image.source === 'uploaded' && image.file) {
             formData.append('image', image.file);
         } else if (image.source === 'scraped' && image.preview) {

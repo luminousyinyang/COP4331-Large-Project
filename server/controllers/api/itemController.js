@@ -2,23 +2,21 @@ const express = require('express');
 const router = express.Router();
 const Item = require('../../models/Item');
 const User = require('../../models/User');
+const Tag = require('../../models/Tags');
 const cheerio = require('cheerio');
 const axios = require('axios');
 const fileUpload = require('express-fileupload');
-const crypto = require('crypto');
-const path = require('path');
-const upload = require('../../config/multer'); // Import Multer config
+const upload = require('../../config/multer');
 
 router.post('/create', upload.single('image'), async (req, res) => {
     console.log("/create");
-    const { userID, tagID, description, imageURL, price, title } = req.body;
+    const { userID, tag, description, imageURL, price, title } = req.body;
 
     try {
         if (!userID || !description || price === undefined || !title) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        // If an image was uploaded, use its URL in the 'uploads' folder
         let uploadedImageURL = imageURL; // default to the provided imageURL
         if (req.file) {
             uploadedImageURL = `/uploads/${req.file.filename}`; // Save the file path to the imageURL
@@ -30,14 +28,31 @@ router.post('/create', upload.single('image'), async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Create the item and save to the database
+        let tagID = null;
+        if (tag) {
+            const tagLower = tag.toLowerCase();
+            let foundTag = await Tag.findOne({ tagName: tagLower });
+            if (!foundTag) {
+                // Create a new if no matches
+                foundTag = new Tag({
+                    userID,
+                    tagName: tagLower,
+                });
+                await foundTag.save();
+            }
+            tagID = foundTag._id;
+        }
+
+        // Save Item
         const item = new Item({
             userID,
             description,
-            imageURL: uploadedImageURL, // Save the image URL
+            // Save the image URL
+            imageURL: uploadedImageURL,
             price,
             title,
-            ...(tagID && { tagID }), // Only include tagID if it is set
+            // Only include tagID if it is set
+            ...(tagID && { tagID }),
         });
 
         await item.save();
