@@ -29,7 +29,6 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
 
     const [imgPreview, setImgPreview] = useState<string | null>("");
     const [productName, setProductName] = useState(null);
-    const [price, setPrice] = useState(null);
     const [description, setDescription] = useState('');
 
     const [open, setOpen] = useState(false);
@@ -87,6 +86,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                     console.log('Product info:', data);
                     setImgPreview(data.info.image);
                     setProductName(data.info.title);
+                    setDescription(data.info.description);
                 } else {
                     console.error('Error fetching product info:', data.message);
                 }
@@ -240,7 +240,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     <h2 className="font-bold">Description</h2>
                                     <Textarea
                                         id="productDesc"
-                                        value={form.productDesc}
+                                        value={description}
                                         onChange={handleFormChange}
                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
                                     />
