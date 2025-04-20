@@ -7,14 +7,21 @@ const axios = require('axios');
 const fileUpload = require('express-fileupload');
 const crypto = require('crypto');
 const path = require('path');
+const upload = require('../../config/multer'); // Import Multer config
 
-router.post('/create', async (req, res) => {
+router.post('/create', upload.single('image'), async (req, res) => {
+    console.log("/create");
     const { userID, tagID, description, imageURL, price, title } = req.body;
 
     try {
-        if (!userID || !description || !imageURL || price === undefined || !title) {
-            console.log(req.body);
+        if (!userID || !description || price === undefined || !title) {
             return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // If an image was uploaded, use its URL in the 'uploads' folder
+        let uploadedImageURL = imageURL; // default to the provided imageURL
+        if (req.file) {
+            uploadedImageURL = `/uploads/${req.file.filename}`; // Save the file path to the imageURL
         }
 
         // Check if user exists
@@ -23,61 +30,65 @@ router.post('/create', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        // Create the item and save to the database
         const item = new Item({
             userID,
             description,
-            imageURL,
+            imageURL: uploadedImageURL, // Save the image URL
             price,
             title,
             ...(tagID && { tagID }), // Only include tagID if it is set
         });
 
         await item.save();
+
+        // Return success response
         res.status(201).json({ message: 'Item created successfully', item });
+
     } catch (err) {
         console.error('Error adding item:', err);
         res.status(500).json({ message: 'Server error' });
     }
 });
 
-router.post('/uploadimg', fileUpload({
-    limits: {
-        fileSize: 10000000,
-        safeFileNames: true,
-    },
-    abortOnLimit: true,
-}), async (req, res) => {
-    // first obtains the image from the request
+// router.post('/uploadimg', fileUpload({
+//     limits: {
+//         fileSize: 10000000,
+//         safeFileNames: true,
+//     },
+//     abortOnLimit: true,
+// }), async (req, res) => {
+//     // first obtains the image from the request
 
-    const { image } = req.body;
+//     const { image } = req.body;
 
-    // checks if there is a file and if there is a file, it is considered
-    // an image
-    if (!image) {
-        return res.status(400).json({ message: "Image missing" });
-    }
+//     // checks if there is a file and if there is a file, it is considered
+//     // an image
+//     if (!image) {
+//         return res.status(400).json({ message: "Image missing" });
+//     }
 
-    if (!/^image/.test(image.mimetype)) {
-        return res.status(400).json({ message: "Invalid file type" });
-    }
+//     if (!/^image/.test(image.mimetype)) {
+//         return res.status(400).json({ message: "Invalid file type" });
+//     }
 
-    // new filename to ensure we do not overwrite other images
-    const fileExtension = path.extname(image.name);
-    const uniqueFilename = crypto.randomUUID() + fileExtension;
+//     // new filename to ensure we do not overwrite other images
+//     const fileExtension = path.extname(image.name);
+//     const uniqueFilename = crypto.randomUUID() + fileExtension;
 
-    // file destination
-    const destinationFile = path.join("../../../upload/", uniqueFilename);
+//     // file destination
+//     const destinationFile = path.join("../../../upload/", uniqueFilename);
 
 
-    // save the image in the upload folder, which is at the root of the project
-    image.mv(destinationFile);
+//     // save the image in the upload folder, which is at the root of the project
+//     image.mv(destinationFile);
 
-    // return the file path for the file
-    return res.status(200).json({
-        message: "image upload successful",
-        imgPath: destinationFile
-    })
-})
+//     // return the file path for the file
+//     return res.status(200).json({
+//         message: "image upload successful",
+//         imgPath: destinationFile
+//     })
+// })
 
 router.post('/update', async (req, res) => {
     const { itemId, tagID, description, imageURL, price, title, isBought } = req.body;

@@ -11,7 +11,7 @@ import {
     DialogTrigger,
     DialogClose,
 } from '@/components/ui/dialog';
-import Dropdown from '@/components/ui/checkbox'; // Replace if outdated
+import Dropdown from '@/components/ui/checkbox';
 
 interface OptionsBarProps extends React.ComponentProps<'div'> {
     userId: string;
@@ -28,6 +28,10 @@ interface FormState {
 const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) => {
 
     const [imgPreview, setImgPreview] = useState<string | null>("");
+    const [productName, setProductName] = useState(null);
+    const [price, setPrice] = useState(null);
+    const [description, setDescription] = useState('');
+
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
     const [form, setForm] = useState<FormState>({
@@ -38,26 +42,24 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         productDesc: '',
     });
 
-    // Saves the file taken from file input, and stores it in imgPreview
-    // Shows the image preview 
+    const [imageFile, setImageFile] = useState<File | null>(null);
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            setImageFile(file);
             const previewURL = URL.createObjectURL(file);
             setImgPreview(previewURL);
         }
     };
 
-
-
-    // Debug userId
     useEffect(() => {
         if (!open && imgPreview) {
             URL.revokeObjectURL(imgPreview);
             setImgPreview(null);
         }
-        console.log('OptionsBar userId:', userId);
-    }, [userId]);
+    }, [open, imgPreview]);
+
 
     const handleFormChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -83,7 +85,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
 
                 if (response.ok) {
                     console.log('Product info:', data);
-                    setImgPreview(data.info.image); // ✅ update image src
+                    setImgPreview(data.info.image);
+                    setProductName(data.info.title);
                 } else {
                     console.error('Error fetching product info:', data.message);
                 }
@@ -101,27 +104,24 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
 
         const { productLink, productName, productPrice, productTag, productDesc } = form;
 
-        if (!userId || !productLink || !productName || !productPrice || !productDesc) {
+        if (!userId || !productName || !productPrice || !productDesc || !productLink) {
             return alert('Please fill in all required fields.');
         }
 
-        const payload = {
-            userID: userId,
-            tagID: productTag,
-            title: productName,
-            price: productPrice,
-            description: productDesc,
-            //link to img return by the api
-            imageURL: imgPreview,
-        };
+        const formData = new FormData();
+        formData.append('userID', userId);
+        formData.append('title', productName);
+        formData.append('price', productPrice);
+        formData.append('description', productDesc);
+        formData.append('tagID', productTag || '');
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
 
         try {
             const response = await fetch('/api/item/create', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
+                body: formData,
             });
 
             const data = await response.json();
@@ -137,6 +137,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
             alert('Server error');
         }
     };
+
 
     return (
         <div className={cn('flex flex-col gap-3 w-[780px]', className)} {...props}>
@@ -208,7 +209,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     <Input
                                         id="productName"
                                         type="text"
-                                        value={form.productName}
+                                        value={productName || ''}
                                         onChange={handleFormChange}
                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                     />

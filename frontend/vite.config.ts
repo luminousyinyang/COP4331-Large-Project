@@ -22,6 +22,14 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      // TODO: add this to apache config , this set up only works locally
+      // ProxyPass /uploads http://localhost:5000/uploads
+      // ProxyPassReverse /uploads http://localhost:5000/uploads
+      '/uploads': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      }
     }
   }
 })
