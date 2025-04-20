@@ -13,10 +13,12 @@ import {
 } from '@/components/ui/dialog';
 import Dropdown from '@/components/ui/checkbox';
 
+// Props interface for OptionsBar
 interface OptionsBarProps extends React.ComponentProps<'div'> {
-    userId: string;
+    userId: string; // ID of the logged-in user
 }
 
+// Form data structure
 interface FormState {
     productLink: string;
     productName: string;
@@ -27,9 +29,13 @@ interface FormState {
 }
 
 const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) => {
+    // Image preview URL (object URL or fetched image)
     const [imgPreview, setImgPreview] = useState<string | null>("");
+    // Controls dialog open/close state
     const [open, setOpen] = useState(false);
+    // Search input value
     const [searchVal, setSearchVal] = useState('');
+    // Form input values
     const [form, setForm] = useState<FormState>({
         productLink: '',
         productName: '',
@@ -38,18 +44,21 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         productDesc: '',
         productImg: ''
     });
-
+    // Selected file from file input
     const [imageFile, setImageFile] = useState<File | null>(null);
 
+    // Handle file upload
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setImageFile(file);
+            // Create object URL for preview
             const previewURL = URL.createObjectURL(file);
             setImgPreview(previewURL);
         }
     };
 
+    // Cleanup object URL when dialog closes
     useEffect(() => {
         if (!open && imgPreview) {
             URL.revokeObjectURL(imgPreview);
@@ -57,6 +66,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         }
     }, [open, imgPreview]);
 
+    // Handle form field updates
     const handleFormChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -64,6 +74,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         setForm((prev) => ({ ...prev, [id]: value }));
     };
 
+    //fetch product metadata (name + description + image) based on URL
     useEffect(() => {
         const fetchProductInfo = async () => {
             if (!form.productLink) {
@@ -89,6 +100,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
 
                 if (response.ok) {
                     console.log('Product info:', data);
+                    // Auto-fill fields with scraped product info
                     setImgPreview(data.info.image);
                     setForm((prev) => ({
                         ...prev,
@@ -106,9 +118,10 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         fetchProductInfo();
     }, [form.productLink]);
 
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const { productLink, productName, productPrice, productTag, productDesc, productImg } = form;
+        const { productLink, productName, productPrice, productTag, productDesc } = form;
 
         if (!userId || !productName || !productPrice || !productDesc || !productLink) {
             return alert('Please fill in all required fields.');
@@ -120,6 +133,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         formData.append('price', productPrice);
         formData.append('description', productDesc);
         formData.append('tagID', productTag || '');
+
         if (imageFile) {
             formData.append('image', imageFile);
         } else {
@@ -136,6 +150,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
             if (response.ok) {
                 alert('Item created successfully!');
                 setOpen(false);
+                // Reset form
                 setForm({
                     productLink: '',
                     productName: '',
@@ -168,6 +183,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                     />
                     <Search size={22} className="absolute top-1.5 right-3" />
                 </form>
+
+                {/* Filter Dropdown */}
                 <div className="relative hover:scale-110 transition-all duration-400">
                     <Dropdown
                         text="Filter"
@@ -176,6 +193,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                     />
                     <Filter size={22} color="white" className="absolute top-1.5 right-3" />
                 </div>
+
+                {/* Add Item Dialog */}
                 <Dialog open={open} onOpenChange={setOpen}>
                     <div className="relative hover:scale-110 transition-all duration-400">
                         <DialogTrigger
@@ -186,16 +205,20 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                             <PlusSquare size={22} color="white" className="absolute top-2 right-3" />
                         </DialogTrigger>
                     </div>
+
+                    {/* Dialog Content */}
                     <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
                         <DialogHeader>
                             <form onSubmit={handleSubmit} className="relative flex flex-col gap-3.5">
+                                {/* Close Button */}
                                 <DialogClose className="absolute w-[35px] h-[35px] -top-1 -right-11 text-white">
                                     <X className="w-6 h-6 absolute top-1 right-1.75" />
                                 </DialogClose>
+
                                 <DialogTitle className="text-xl font-black text-center">Add Item</DialogTitle>
                                 <div className="border border-[var(--bg-navy)]" />
 
-                                {/* Image Upload */}
+                                {/* File Upload + Preview */}
                                 <Input
                                     className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                     id="item-picture"
@@ -208,6 +231,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     className="w-full h-[120px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
                                 />
 
+                                {/* Form Fields */}
                                 <div>
                                     <h2 className="font-bold">Product Link</h2>
                                     <Input
@@ -259,6 +283,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
                                     />
                                 </div>
+
+                                {/* Footer Buttons */}
                                 <div className="flex justify-between">
                                     <DialogClose className="w-[125px] h-[37px] flex justify-center items-center">
                                         Cancel
@@ -279,4 +305,5 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
     );
 };
 
+// Exporting as a memoized component to optimize performance and prevent unnecessary re-renders
 export const OptionsBarComponent = memo(OptionsBar);
