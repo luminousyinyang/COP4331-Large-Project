@@ -23,14 +23,11 @@ interface FormState {
     productPrice: string;
     productTag: string;
     productDesc: string;
+    productImg: string;
 }
 
 const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) => {
-
     const [imgPreview, setImgPreview] = useState<string | null>("");
-    const [productName, setProductName] = useState(null);
-    const [description, setDescription] = useState('');
-
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
     const [form, setForm] = useState<FormState>({
@@ -39,6 +36,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         productPrice: '',
         productTag: '',
         productDesc: '',
+        productImg: ''
     });
 
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -59,7 +57,6 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         }
     }, [open, imgPreview]);
 
-
     const handleFormChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -69,7 +66,15 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
 
     useEffect(() => {
         const fetchProductInfo = async () => {
-            if (!form.productLink) return;
+            if (!form.productLink) {
+                setImgPreview(null);
+                setForm((prev) => ({
+                    ...prev,
+                    productName: '',
+                    productDesc: '',
+                }));
+                return;
+            }
 
             try {
                 const response = await fetch('/api/item/getprodinfo', {
@@ -85,8 +90,11 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                 if (response.ok) {
                     console.log('Product info:', data);
                     setImgPreview(data.info.image);
-                    setProductName(data.info.title);
-                    setDescription(data.info.description);
+                    setForm((prev) => ({
+                        ...prev,
+                        productName: data.info.title || '',
+                        productDesc: data.info.description || '',
+                    }));
                 } else {
                     console.error('Error fetching product info:', data.message);
                 }
@@ -98,11 +106,9 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         fetchProductInfo();
     }, [form.productLink]);
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const { productLink, productName, productPrice, productTag, productDesc } = form;
+        const { productLink, productName, productPrice, productTag, productDesc, productImg } = form;
 
         if (!userId || !productName || !productPrice || !productDesc || !productLink) {
             return alert('Please fill in all required fields.');
@@ -116,6 +122,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
         formData.append('tagID', productTag || '');
         if (imageFile) {
             formData.append('image', imageFile);
+        } else {
+            formData.append('imageURL', imgPreview || '');
         }
 
         try {
@@ -128,7 +136,14 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
             if (response.ok) {
                 alert('Item created successfully!');
                 setOpen(false);
-                setForm({ productLink: '', productName: '', productPrice: '', productTag: '', productDesc: '' });
+                setForm({
+                    productLink: '',
+                    productName: '',
+                    productPrice: '',
+                    productTag: '',
+                    productDesc: '',
+                    productImg: ''
+                });
             } else {
                 alert(`Error: ${data.message}`);
             }
@@ -137,7 +152,6 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
             alert('Server error');
         }
     };
-
 
     return (
         <div className={cn('flex flex-col gap-3 w-[780px]', className)} {...props}>
@@ -181,8 +195,9 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                 <DialogTitle className="text-xl font-black text-center">Add Item</DialogTitle>
                                 <div className="border border-[var(--bg-navy)]" />
 
-                                {/* Image Preview (Link) */}
-                                <Input className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
+                                {/* Image Upload */}
+                                <Input
+                                    className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                     id="item-picture"
                                     type="file"
                                     onChange={handleImageChange}
@@ -192,7 +207,6 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     alt={imgPreview ? 'Product Image' : 'No Image'}
                                     className="w-full h-[120px] object-cover bg-[var(--bg-pale-white)] border border-[var(--bg-navy)] rounded-2xl"
                                 />
-
 
                                 <div>
                                     <h2 className="font-bold">Product Link</h2>
@@ -209,7 +223,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     <Input
                                         id="productName"
                                         type="text"
-                                        value={productName || ''}
+                                        value={form.productName}
                                         onChange={handleFormChange}
                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                     />
@@ -240,7 +254,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
                                     <h2 className="font-bold">Description</h2>
                                     <Textarea
                                         id="productDesc"
-                                        value={description}
+                                        value={form.productDesc}
                                         onChange={handleFormChange}
                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
                                     />
@@ -265,5 +279,4 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, ...props }) 
     );
 };
 
-// Memoize and export
 export const OptionsBarComponent = memo(OptionsBar);
