@@ -10,10 +10,10 @@ const upload = require('../../config/multer');
 
 router.post('/create', upload.single('image'), async (req, res) => {
     console.log("/create");
-    const { userID, tag, description, imageURL, price, title } = req.body;
+    const { userID, tag, description, imageURL, price, title, productLink } = req.body;
 
     try {
-        if (!userID || !description || price === undefined || !title) {
+        if (!userID || !description || price === undefined || !title || !productLink) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -53,6 +53,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
             title,
             // Only include tagID if it is set
             ...(tagID && { tagID }),
+            productURL: productLink,
         });
 
         await item.save();

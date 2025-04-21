@@ -13,7 +13,7 @@ interface Item {
   _id: string;
   title: string;
   price: string;
-  link: string;
+  productURL: string;
   description: string;
   imageURL: string;
   tags: Tag[];
@@ -109,7 +109,7 @@ export default function ItemPage() {
               <ItemDetails 
                 name={item?.title || ""}
                 price={item?.price || ""}
-                link={item?.link || ""}
+                link={item?.productURL || ""}
                 description={item?.description || ""}
               />
             </div>

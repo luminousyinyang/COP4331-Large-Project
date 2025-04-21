@@ -171,6 +171,7 @@ const AddItemForm: React.FC<{
         } else if (image.source === 'scraped' && image.preview) {
             formData.append('imageURL', image.preview);
         }
+        formData.append('productLink', productLink);
 
         try {
             const response = await fetch('/api/item/create', {
