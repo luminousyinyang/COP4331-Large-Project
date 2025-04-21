@@ -205,13 +205,13 @@ const AddItemForm: React.FC<{
     return (
         <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
             <DialogHeader>
-                <form onSubmit={handleSubmit} className="relative flex flex-col gap-3.5">
+                <form onSubmit={handleSubmit} className="relative flex flex-col gap-3 h-full justify-center">
                     <DialogClose className="absolute w-[35px] h-[35px] -top-1 -right-11 text-white">
                         <X className="w-6 h-6 absolute top-1 right-1.75" />
                     </DialogClose>
                     <DialogTitle className="text-xl font-black text-center">Add Item</DialogTitle>
                     <div className="border border-[var(--bg-navy)]" />
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-4">
                         <Input
                             id="item-picture"
                             type="file"
@@ -285,7 +285,7 @@ const AddItemForm: React.FC<{
                             className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
                         />
                     </div>
-                    <div className="flex justify-between mt-6">
+                    <div className="flex justify-between mt-2">
                         <DialogClose className="w-[125px] cancel-btn h-[37px] flex justify-center items-center">
                             Cancel
                         </DialogClose>
