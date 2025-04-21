@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    bio: {
+        type: String,
+        required: false,
+        trim: true,
+        default: 'Hey! Welcome to my Wish List!'
+    },
     x: {
         type: String,
         default: '',
