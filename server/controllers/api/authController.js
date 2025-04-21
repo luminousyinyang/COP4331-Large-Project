@@ -45,8 +45,7 @@ router.post('/register', async (req, res) => {
         lastname,
         x,
         instagram,
-        spotify,
-        amazon
+        spotify
     } = req.body;
 
     try {
@@ -56,7 +55,7 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Username already taken' });
         }
 
-        const user = new User({ username, password, firstname, lastname, x, instagram, spotify, amazon });
+        const user = new User({ username, password, firstname, lastname, x, instagram, spotify });
         await user.save();
 
         // Log in immediately after registration\
@@ -96,7 +95,7 @@ router.post('/profile', isAuthenticated, async (req, res) => {
     try {
         const userId = req.session.userId;
 
-        const { username, firstname, lastname, bio, x, instagram, spotify, amazon } = req.body;
+        const { username, firstname, lastname, bio, x, instagram, spotify } = req.body;
 
         const updateFields = {
             ...(username && { username }),
