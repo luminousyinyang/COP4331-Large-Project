@@ -31,12 +31,15 @@ router.post('/create', upload.single('image'), async (req, res) => {
         let tagID = null;
         if (tag) {
             const tagLower = tag.toLowerCase();
-            let foundTag = await Tag.findOne({ tagName: tagLower });
+            let foundTag = await Tag.findOne({ tagName: {
+                $regex: `^${tag}$`,
+                $options: 'i'
+            } });
             if (!foundTag) {
                 // Create a new if no matches
                 foundTag = new Tag({
                     userID,
-                    tagName: tagLower,
+                    tagName: tag,
                 });
                 await foundTag.save();
             }

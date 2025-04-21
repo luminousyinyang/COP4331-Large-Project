@@ -73,7 +73,7 @@ function LandingPage() {
 
   // Handle new item addition
   const handleItemAdded = (newItem: Item) => {
-    setItems((prev) => [...prev, newItem]);
+    setItems((prev) => [newItem, ...prev]);
   };
 
   return (
