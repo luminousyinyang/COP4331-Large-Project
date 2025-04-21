@@ -42,7 +42,7 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
   const handleEditClick = () => {
     if (item) {
       setEditForm({
-        name: item.name,
+        name: item.title,
         price: item.price,
         tag: item.tags?.[0]?.name || "",
         description: item.description,
