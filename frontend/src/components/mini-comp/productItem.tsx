@@ -1,3 +1,4 @@
+"use client";
 import { X } from 'react-feather';
 import {
     Dialog,
@@ -8,6 +9,7 @@ import {
     DialogTrigger,
     DialogClose,
 } from "@/components/ui/dialog";
+import { useNavigate } from 'react-router-dom';
 
 import placeholder from '../../assets/placeholder.jpeg';
 
@@ -18,12 +20,15 @@ type ItemProps = {
     price: number;
     itemDesc: string;
     title: string;
+    itemId: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const Item = ({ className, image, imgDesc, price, itemDesc, title, ...props }: ItemProps) => {
+const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, ...props }: ItemProps) => {
+    const navigate = useNavigate();
 
     return (
-        <div className="flex justify-center items-center gap-8 h-[195px] w-[720px] border rounded-2xl bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] cursor-pointer hover:scale-102 transition-transform duration-500 ease-in-out">
+        <div className="flex justify-center items-center gap-8 h-[195px] w-[720px] border rounded-2xl bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] cursor-pointer hover:scale-102 transition-transform duration-500 ease-in-out"
+        onClick={() => navigate(`/item/${itemId}`)} >
             <img
                 src={image || placeholder}
                 alt={imgDesc}

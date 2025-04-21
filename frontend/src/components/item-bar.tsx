@@ -20,10 +20,10 @@ interface ItemBarProps extends React.ComponentProps<"div"> {
   onDelete?: () => void
   onGoBack?: () => void
   item?: {
-    name: string
+    title: string
     price: string
     description: string
-    imageUrl: string
+    imageURL: string
     tags?: Array<{ id: string, name: string }>
   }
 }

@@ -6,6 +6,7 @@ type ItemType = {
     description: string;
     price: number;
     title: string;
+    _id: string;
 };
 
 function ItemContainer({ className, items = [], ...props }: React.ComponentProps<"div"> & { items: ItemType[] }) {
@@ -20,6 +21,7 @@ function ItemContainer({ className, items = [], ...props }: React.ComponentProps
                         price={item.price}
                         itemDesc={item.description}
                         title={item.title}
+                        itemId = {item._id}
                     />
                 ))
             ) : (

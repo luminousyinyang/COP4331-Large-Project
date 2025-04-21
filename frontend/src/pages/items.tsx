@@ -2,13 +2,63 @@ import { ItemBar } from "@/components/item-bar"
 import { ItemImage } from "@/components/item-image"
 import { ItemDetails } from "@/components/item-details"
 import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+
+interface Tag {
+  id: string;
+  name: string;
+}
+
+interface Item {
+  _id: string;
+  title: string;
+  price: string;
+  link: string;
+  description: string;
+  imageURL: string;
+  tags: Tag[];
+}
 
 export default function ItemPage() {
   const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>();
+
+  const [item, setItem] = useState<Item | null>(null);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // err state?
+
+
   // const { itemId } = useParams()
 
+  useEffect(() => {
+    async function fetchItem() {
+      try {
+        const resp = await fetch('/api/item/singleitem', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({itemID: id}),
+        });
+
+        const data = await resp.json();
+        if (!resp.ok) {
+          // err or navigate back
+        }
+
+        setItem(data.item);
+      } catch (err) {
+        console.log(err)
+        // err or navigate back
+      }
+      // finally set loading false?
+    }
+
+    fetchItem();
+  }, [id]);
+
   // test
-  const item = {
+  const item2 = {
     name: "This Product's Name",
     price: "999.99",
     link: "link-is-located-here.link",
@@ -23,7 +73,7 @@ export default function ItemPage() {
   }
 
   const handleGoBack = () => {
-    navigate('/landing')
+    navigate('/home')
   }
 
   const handleDelete = async () => {
@@ -37,7 +87,7 @@ export default function ItemPage() {
             className="py-10"
             onDelete={handleDelete}
             onGoBack={handleGoBack}
-            item={item}
+            item={item || undefined}
           />
         </div>
       </div>
@@ -49,18 +99,18 @@ export default function ItemPage() {
             {/* left fixed */}
             <div className="w-[600px] flex-shrink-0">
               <ItemImage 
-                imageUrl={item.imageUrl}
-                tags={item.tags}
+                imageUrl={item?.imageURL || ""}
+                tags={item?.tags || []}
               />
             </div>
             
             {/* scroll */}
             <div className="w-[700px] overflow-y-auto h-full pb-8">
               <ItemDetails 
-                name={item.name}
-                price={item.price}
-                link={item.link}
-                description={item.description}
+                name={item?.title || ""}
+                price={item?.price || ""}
+                link={item?.link || ""}
+                description={item?.description || ""}
               />
             </div>
           </div>
