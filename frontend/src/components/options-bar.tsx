@@ -17,7 +17,7 @@ import Dropdown from '@/components/ui/checkbox';
 interface OptionsBarProps extends React.ComponentProps<'div'> {
     userId: string;
     onItemAdded?: (item: Item) => void;
-    onSearch: (title: string) => void;
+    onSearch: (title: string, tagID?: string) => void;
 }
 
 // Form data structure
@@ -304,11 +304,16 @@ const AddItemForm: React.FC<{
     );
 };
 
+interface Tag {
+    _id: string;
+    tagName: string;
+}
+
 const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded, onSearch, ...props }) => {
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
-    const [tags, setTags] = useState<string[]>([]);
-
+    const [tags, setTags] = useState<Tag[]>([]);
+    const [selectedTag, setSelectedTag] = useState<string | ''>('');
 
     useEffect(() => {
         const fetchTags = async () => {
@@ -317,7 +322,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
                 const json = await resp.json();
     
                 if (resp.ok) {
-                    setTags(json.tags.map((tag) => tag.tagName));
+                    setTags(json.tags);
                 } else {
                     console.error('Failed to fetch tags:', json.message);
                 }
@@ -330,9 +335,9 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
     }, [userId])
 
     useEffect(() => {
-        onSearch(searchVal.trim());
+        onSearch(searchVal.trim(), selectedTag || undefined);
         
-    }, [searchVal, userId]);
+    }, [searchVal, selectedTag, userId]);
 
 
 
@@ -357,8 +362,8 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
                         style="w-[155px] flex justify-start text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"
                         size="w-39 max-h-100"
                         options={tags}
-                        onChange={(tag) => {
-                            console.log('filter by tag:', tag);
+                        onChange={(ids) => {
+                            setSelectedTag(ids);
                         }}
                     />
                     <Filter size={22} color="white" className="absolute top-1.5 right-3" />

@@ -15,18 +15,20 @@ import {
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
+
 export default function DropdownMenuCheckboxes({ text, style, size, options, onChange }) {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
   const [showPanel, setShowPanel] = React.useState<Checked>(false)
-  const [checkedItems, setCheckedItems] = React.useState<string[]>([])
+  const [checkedIds, setCheckedIds] = React.useState<string[]>([]);
 
-  const handleToggle = (opt: string) => (newState: Checked) => {
-    // implement search l8r
-    const next = newState ? [...checkedItems, opt] : checkedItems.filter((x) => x !== opt);
-    setCheckedItems(next);
-    onChange?.(next);
-  }
+  const toggle = (tagId: string) => {
+    const next = checkedIds.includes(tagId)
+      ? checkedIds.filter(id => id !== tagId)
+      : [...checkedIds, tagId];
+    setCheckedIds(next);
+    onChange(next);
+  };
 
   return (
     <DropdownMenu>
@@ -37,12 +39,14 @@ export default function DropdownMenuCheckboxes({ text, style, size, options, onC
         <DropdownMenuLabel>All Tags</DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-black"/>
 
-        {options.map((opt) => (
+        {options.map(tag => (
           <DropdownMenuCheckboxItem
-            key={opt}
-            checked={checkedItems.includes(opt)}
-            onCheckedChange={handleToggle(opt)}
-            >{opt}</DropdownMenuCheckboxItem>
+            key={tag._id}
+            checked={checkedIds.includes(tag._id)}
+            onCheckedChange={() => toggle(tag._id)}
+          >
+            {tag.tagName}
+          </DropdownMenuCheckboxItem>
         ))}
         
         

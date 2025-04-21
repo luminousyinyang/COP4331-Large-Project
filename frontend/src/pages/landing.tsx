@@ -76,12 +76,12 @@ function LandingPage() {
     setItems((prev) => [newItem, ...prev]);
   };
 
-  const handleSearch = async (title: string) => {
+  const handleSearch = async (title: string, tagID?: string) => {
     try {
       const resp = await fetch('/api/item/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, userID: userId}),
+        body: JSON.stringify({ title, tagID, userID: userId}),
       });
 
       if (!resp.ok) {

@@ -199,7 +199,7 @@ router.post('/search', async (req, res) => {
     // needs userID (will get all the items for that userID)
     // if title is present, it will retrieve those docs. with title in it
 
-    const { title, userID } = req.body;
+    const { title, userID, tagID } = req.body;
 
     if (!userID) {
         return res.status(404).json({ message: "userID missing" });
@@ -210,18 +210,35 @@ router.post('/search', async (req, res) => {
         let query;
 
         if (!title) {
-            // search all of the items
-            // console.log(`Searching all the items for user ${userID}`);
-            query = await Item.find({
-                userID: userID
-            })
+            if (tagID.length > 0) {
+                // search all of the tag
+                query = await Item.find({
+                    userID: userID,
+                    tagID: tagID
+                }).sort({ createdAt: -1 });
+            } else {
+                // search all of the items
+                // console.log(`Searching all the items for user ${userID}`);
+                query = await Item.find({
+                    userID: userID
+                }).sort({ createdAt: -1 });
+            }
         } else {
-            // search for a specific item
-            // console.log(`Searching for ${title} for user ${userID}`);
-            query = await Item.find({
-                userID: userID,
-                title: new RegExp(title, "im")
-            });
+            if (tagID.length > 0) {
+                // search for a specific tag
+                query = await Item.find({
+                    userID: userID,
+                    title: new RegExp(title, "im"),
+                    tagID: tagID
+                }).sort({ createdAt: -1 });
+            } else {
+                // search for a specific item
+                // console.log(`Searching for ${title} for user ${userID}`);
+                query = await Item.find({
+                    userID: userID,
+                    title: new RegExp(title, "im")
+                }).sort({ createdAt: -1 });
+            }
         }
 
         // console.log(query);
