@@ -24,11 +24,12 @@ type ProfileBarProps = {
     firstName: string;
     lastName: string;
     instaLink: string;
+    amazonLink: string;
     spotifyLink: string;
     twitterLink: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-function ProfileBar({ className, image, imgDesc, firstName, lastName, about, instaLink, spotifyLink, twitterLink, ...props }: ProfileBarProps) {
+function ProfileBar({ className, image, imgDesc, firstName, lastName, about, instaLink, spotifyLink, twitterLink, amazonLink, ...props }: ProfileBarProps) {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -152,27 +153,36 @@ function ProfileBar({ className, image, imgDesc, firstName, lastName, about, ins
                 <span className="overflow-hidden h-[170px]">{about}</span>
             </div>
             <div className="flex flex-col gap-2 w-[280px]">
-                <h2 className="text-lg font-bold">Social Media</h2>
-                <div className="flex flex-col gap-4 w-[280px]">
-                    <a href={instaLink} className="flex gap-5 cursor-pointer group relative">
-                        <i className="bi bi-instagram"></i>
-                        <p className="overflow-hidden h-[22px]">instagram-example.link</p>
-                        <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
-                    </a>
+                {(instaLink || spotifyLink || twitterLink) && (
+                    <>
+                        <h2 className="text-lg font-bold">Social Media</h2>
+                        <div className="flex flex-col gap-4 w-[280px]">
+                            {instaLink && (
+                                <a href={instaLink} className="flex gap-5 cursor-pointer group relative">
+                                    <i className="bi bi-instagram"></i>
+                                    <p className="overflow-hidden h-[22px]">{instaLink}</p>
+                                    <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
+                                </a>
+                            )}
 
-                    <a href={spotifyLink} className="flex gap-5 cursor-pointer group relative">
-                        <i className="bi bi-spotify"></i>
-                        <p className="overflow-hidden h-[22px]">spotify-example.link</p>
-                        <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
-                    </a>
+                            {spotifyLink && (
+                                <a href={spotifyLink} className="flex gap-5 cursor-pointer group relative">
+                                    <i className="bi bi-spotify"></i>
+                                    <p className="overflow-hidden h-[22px]">{spotifyLink}</p>
+                                    <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
+                                </a>
+                            )}
 
-                    <a href={twitterLink} className="flex gap-5 cursor-pointer group relative">
-                        <i className="bi bi-twitter-x"></i>
-                        <p className="overflow-hidden h-[22px]">twitter-example.link</p>
-                        <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
-                    </a>
-                </div>
-
+                            {twitterLink && (
+                                <a href={twitterLink} className="flex gap-5 cursor-pointer group relative">
+                                    <i className="bi bi-twitter-x"></i>
+                                    <p className="overflow-hidden h-[22px]">{twitterLink}</p>
+                                    <div className="absolute bottom-[-4px] left-0 w-0 h-[3px] bg-[var(--bg-navy)] transition-all duration-500 ease-out group-hover:w-[25%]"></div>
+                                </a>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
 
         </div>

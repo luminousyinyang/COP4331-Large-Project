@@ -21,6 +21,11 @@ function LandingPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userId, setUserId] = useState('');
+  const [userBio, setBio] = useState('');
+  const [x, setX] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [spotify, setSpotify] = useState('');
+  const [amazon, setAmazon] = useState('');
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const color = "black";
@@ -37,9 +42,15 @@ function LandingPage() {
           return;
         }
 
-        const { userId, username, firstname, lastname } = await resp.json();
+        const { userId, username, firstname, lastname, bio } = await resp.json();
+        console.log(userId, username, firstname, lastname, bio);
         setFirstName(firstname || '');
         setLastName(lastname || '');
+        setBio(bio || '');
+        setX(x || '');
+        setInstagram(instagram || '');
+        setSpotify(spotify || '');
+        setAmazon(amazon || '');
         setUserId(userId || '');
 
         // Fetch items for the authenticated user
@@ -95,10 +106,11 @@ function LandingPage() {
             imgDesc={"Profile Picture"}
             firstName={firstName || "First"}
             lastName={lastName || "Last"}
-            about={"Lorem Ipsum is simply dummy text of the printing and typesetting industry..."}
-            instaLink={""}
-            spotifyLink={""}
-            twitterLink={""}
+            about={userBio || 'Hey! Welcome to my Wish List!'}
+            instaLink={instagram}
+            spotifyLink={spotify}
+            twitterLink={x}
+            amazonLink={amazon}
             className="slide-in-left h-screen sticky top-0 right-0"
           />
         </div>

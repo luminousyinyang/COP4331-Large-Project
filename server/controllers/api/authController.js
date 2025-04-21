@@ -72,7 +72,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     try {
         const userId = req.session.userId;
 
-        const user = await User.findById(userId).select('username firstname lastname').lean();
+        const user = await User.findById(userId).select('username firstname lastname bio').lean();
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -83,6 +83,12 @@ router.get('/profile', isAuthenticated, async (req, res) => {
             username: user.username,
             firstname: user.firstname,
             lastname: user.lastname,
+            bio: user.bio,
+            x: user.x,
+            instagram: user.instagram,
+            spotify: user.spotify,
+            amazon: user.amazon
+
         });
     } catch (err) {
         return res.status(500).json({ message: 'Server error' });
