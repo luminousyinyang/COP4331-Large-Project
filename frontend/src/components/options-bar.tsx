@@ -17,6 +17,7 @@ import Dropdown from '@/components/ui/checkbox';
 interface OptionsBarProps extends React.ComponentProps<'div'> {
     userId: string;
     onItemAdded?: (item: Item) => void;
+    onSearch: (title: string) => void;
 }
 
 // Form data structure
@@ -303,7 +304,7 @@ const AddItemForm: React.FC<{
     );
 };
 
-const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded, ...props }) => {
+const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded, onSearch, ...props }) => {
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
     const [tags, setTags] = useState<string[]>([]);
@@ -328,11 +329,18 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
         fetchTags();
     }, [userId])
 
+    useEffect(() => {
+        onSearch(searchVal.trim());
+        
+    }, [searchVal, userId]);
+
+
+
     return (
         <div className={cn('flex flex-col gap-3 w-[780px]', className)} {...props}>
             <h2 className="text-3xl font-black text-[var(--bg-navy)]">My Wishlist</h2>
             <div className="flex justify-between">
-                <form className="relative w-[364px]">
+                <form className="relative w-[364px]" onSubmit={e => e.preventDefault()}>
                     <Input
                         className="bg-[var(--bg-pale-white)] shadow-[5px_5px_5px_rgba(0,0,0,0.3)] px-8"
                         id="search"

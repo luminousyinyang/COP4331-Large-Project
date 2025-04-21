@@ -76,6 +76,25 @@ function LandingPage() {
     setItems((prev) => [newItem, ...prev]);
   };
 
+  const handleSearch = async (title: string) => {
+    try {
+      const resp = await fetch('/api/item/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, userID: userId}),
+      });
+
+      if (!resp.ok) {
+        console.error('Search failed:', resp.statusText);
+        return;
+      }
+      const { items: found } = await resp.json();
+      setItems(found);
+    } catch (err) {
+      console.error('Error during search:', err);
+    }
+  }
+
   return (
     <div className="flex justify-center items-center w-full min-h-screen bg-[var(--bg-sandpaper)]">
       {loading ? (
@@ -96,6 +115,7 @@ function LandingPage() {
               className="slide-in-bottom pt-10 ml-25"
               userId={userId}
               onItemAdded={handleItemAdded}
+              onSearch={handleSearch}
             />
             <ItemContainer className="slide-in-right ml-25" items={items} />
           </div>

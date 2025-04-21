@@ -211,20 +211,20 @@ router.post('/search', async (req, res) => {
 
         if (!title) {
             // search all of the items
-            console.log(`Searching all the items for user ${userID}`);
+            // console.log(`Searching all the items for user ${userID}`);
             query = await Item.find({
                 userID: userID
             })
         } else {
             // search for a specific item
-            console.log(`Searching for ${title} for user ${userID}`);
+            // console.log(`Searching for ${title} for user ${userID}`);
             query = await Item.find({
                 userID: userID,
                 title: new RegExp(title, "im")
             });
         }
 
-        console.log(query);
+        // console.log(query);
         res.status(200).json({
             message: "searching successful, see console",
             items: query
