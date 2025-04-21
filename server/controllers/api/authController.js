@@ -71,8 +71,7 @@ router.post('/register', async (req, res) => {
 router.get('/profile', isAuthenticated, async (req, res) => {
     try {
         const userId = req.session.userId;
-
-        const user = await User.findById(userId).select('username firstname lastname bio').lean();
+        const user = await User.findById(userId).select('username firstname lastname bio x instagram spotify ').lean();
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -87,12 +86,46 @@ router.get('/profile', isAuthenticated, async (req, res) => {
             x: user.x,
             instagram: user.instagram,
             spotify: user.spotify,
-            amazon: user.amazon
-
         });
     } catch (err) {
         return res.status(500).json({ message: 'Server error' });
     }
 });
+
+router.post('/profile', isAuthenticated, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+
+        const { username, firstname, lastname, bio, x, instagram, spotify, amazon } = req.body;
+
+        const updateFields = {
+            ...(username && { username }),
+            ...(firstname && { firstname }),
+            ...(lastname && { lastname }),
+            ...(bio && { bio }),
+            ...(x && { x }),
+            ...(instagram && { instagram }),
+            ...(spotify && { spotify }),
+        };
+
+        const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.json({
+            message: 'Profile updated successfully',
+            userId: updatedUser._id,
+            ...updateFields
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
 
 module.exports = router;

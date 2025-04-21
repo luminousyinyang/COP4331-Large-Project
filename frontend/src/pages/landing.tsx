@@ -25,7 +25,6 @@ function LandingPage() {
   const [x, setX] = useState('');
   const [instagram, setInstagram] = useState('');
   const [spotify, setSpotify] = useState('');
-  const [amazon, setAmazon] = useState('');
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const color = "black";
@@ -42,15 +41,14 @@ function LandingPage() {
           return;
         }
 
-        const { userId, username, firstname, lastname, bio } = await resp.json();
-        console.log(userId, username, firstname, lastname, bio);
+        const { userId, username, firstname, lastname, bio, instagram, x, spotify } = await resp.json();
+        console.log(userId, username, firstname, lastname, bio, instagram);
         setFirstName(firstname || '');
         setLastName(lastname || '');
         setBio(bio || '');
         setX(x || '');
         setInstagram(instagram || '');
         setSpotify(spotify || '');
-        setAmazon(amazon || '');
         setUserId(userId || '');
 
         // Fetch items for the authenticated user
@@ -110,7 +108,6 @@ function LandingPage() {
             instaLink={instagram}
             spotifyLink={spotify}
             twitterLink={x}
-            amazonLink={amazon}
             className="slide-in-left h-screen sticky top-0 right-0"
           />
         </div>
