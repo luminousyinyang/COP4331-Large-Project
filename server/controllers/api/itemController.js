@@ -171,7 +171,23 @@ router.post('/singleitem', async (req, res) => {
     try {
         const query = await Item.findById(itemID);
 
-        res.status(200).json({ message: "success", item: query });
+        let tagsArr = [];
+        if (query.tagID) {
+            const tagQuery = await Tag.findById(query.tagID, 'tagName');
+            if (tagQuery) {
+                tagsArr = [{
+                    id: tagQuery._id.toString(),
+                    name: tagQuery.tagName
+                }];
+            }
+        }
+
+        const formatted = {
+            ...query.toObject(),
+            tags: tagsArr
+        };
+
+        res.status(200).json({ message: "success", item: formatted });
 
     } catch (err) {
         console.error("error getting a singleitem", err);
