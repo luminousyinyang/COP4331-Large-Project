@@ -15,10 +15,18 @@ import {
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
-export default function DropdownMenuCheckboxes({ text, style, size }) {
+export default function DropdownMenuCheckboxes({ text, style, size, options, onChange }) {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
   const [showPanel, setShowPanel] = React.useState<Checked>(false)
+  const [checkedItems, setCheckedItems] = React.useState<string[]>([])
+
+  const handleToggle = (opt: string) => (newState: Checked) => {
+    // implement search l8r
+    const next = newState ? [...checkedItems, opt] : checkedItems.filter((x) => x !== opt);
+    setCheckedItems(next);
+    onChange?.(next);
+  }
 
   return (
     <DropdownMenu>
@@ -28,25 +36,16 @@ export default function DropdownMenuCheckboxes({ text, style, size }) {
       <DropdownMenuContent className={`${size} bg-[var(--bg-pale-white)] border border-black scrollbar-thin`}>
         <DropdownMenuLabel>All Tags</DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-black"/>
+
+        {options.map((opt) => (
+          <DropdownMenuCheckboxItem
+            key={opt}
+            checked={checkedItems.includes(opt)}
+            onCheckedChange={handleToggle(opt)}
+            >{opt}</DropdownMenuCheckboxItem>
+        ))}
         
-        <DropdownMenuCheckboxItem
-          checked={showStatusBar}
-          onCheckedChange={setShowStatusBar}
-        >
-          Birthday
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={showActivityBar}
-          onCheckedChange={setShowActivityBar}
-        >
-          Orange
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={showPanel}
-          onCheckedChange={setShowPanel}
-        >
-          Orange
-        </DropdownMenuCheckboxItem>
+        
         
       </DropdownMenuContent>
     </DropdownMenu>

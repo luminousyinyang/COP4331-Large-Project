@@ -306,6 +306,27 @@ const AddItemForm: React.FC<{
 const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded, ...props }) => {
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
+    const [tags, setTags] = useState<string[]>([]);
+
+
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const resp = await fetch(`/api/item/gettags?userId=${userId}`);
+                const json = await resp.json();
+    
+                if (resp.ok) {
+                    setTags(json.tags.map((tag) => tag.tagName));
+                } else {
+                    console.error('Failed to fetch tags:', json.message);
+                }
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+            }
+        };
+
+        fetchTags();
+    }, [userId])
 
     return (
         <div className={cn('flex flex-col gap-3 w-[780px]', className)} {...props}>
@@ -327,6 +348,10 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
                         text="Filter"
                         style="w-[155px] flex justify-start text-white shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"
                         size="w-39 max-h-100"
+                        options={tags}
+                        onChange={(tag) => {
+                            console.log('filter by tag:', tag);
+                        }}
                     />
                     <Filter size={22} color="white" className="absolute top-1.5 right-3" />
                 </div>

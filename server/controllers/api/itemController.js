@@ -288,4 +288,20 @@ router.get('/getitems', async (req, res) => {
     }
 });
 
+router.get('/gettags', async (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'Missing userId parameter' });
+    }
+
+    try {
+        const tags = await Tag.find({ userID: userId }).sort({ createdAt: -1 });
+        res.status(200).json({ message: 'Tags retrieved successfully', tags });
+    } catch (err) {
+        console.error('Error fetching tags:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+})
+
 module.exports = router;

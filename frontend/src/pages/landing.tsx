@@ -42,7 +42,7 @@ function LandingPage() {
         }
 
         const { userId, username, firstname, lastname, bio, instagram, x, spotify } = await resp.json();
-        console.log(userId, username, firstname, lastname, bio, instagram);
+
         setFirstName(firstname || '');
         setLastName(lastname || '');
         setBio(bio || '');
