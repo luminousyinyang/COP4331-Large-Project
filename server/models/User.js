@@ -40,10 +40,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '',
     },
-    amazon: {
-        type: String,
-        default: '',
-    },
 }, {
     timestamps: true,
 });

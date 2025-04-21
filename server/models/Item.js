@@ -37,6 +37,11 @@ const itemSchema = new mongoose.Schema({
         default: false,
         index: true,
     },
+    productURL: {
+        type: String,
+        required: true,
+        trim: true,
+    },
 },
     {
         timestamps: true,
