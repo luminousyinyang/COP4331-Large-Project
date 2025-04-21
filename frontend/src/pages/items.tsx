@@ -3,6 +3,7 @@ import { ItemImage } from "@/components/item-image"
 import { ItemDetails } from "@/components/item-details"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
+import SyncLoader from "react-spinners/SyncLoader";
 
 interface Tag {
   id: string;
@@ -21,10 +22,11 @@ interface Item {
 
 export default function ItemPage() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(true);
+  const color = "black";
   const { id } = useParams<{ id: string }>();
 
   const [item, setItem] = useState<Item | null>(null);
-  // const [loading, setLoading] = useState<boolean>(true);
   // err state?
 
 
@@ -50,8 +52,10 @@ export default function ItemPage() {
       } catch (err) {
         console.log(err)
         // err or navigate back
+      } finally {
+        await new Promise(resolve => setTimeout(resolve, 200));
+        setLoading(false);
       }
-      // finally set loading false?
     }
 
     fetchItem();
@@ -81,6 +85,19 @@ export default function ItemPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-sandpaper)]">
+      {loading ? (
+        <div className="flex flex-col justify-center items-center w-full min-h-screen">
+          <SyncLoader
+            color={color}
+            loading={loading}
+            size={30}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+          <h2 className="text-xl py-10">Please wait a few seconds</h2>
+        </div>
+      ) : (
+      <>
       <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg-sandpaper)]">
         <div className="max-w-[1400px] mx-auto w-full px-6">
           <ItemBar 
@@ -116,6 +133,8 @@ export default function ItemPage() {
           </div>
         </div>
       </div>
+      </>
+      )}
     </div>
   )
 }
