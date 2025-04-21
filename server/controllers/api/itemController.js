@@ -210,7 +210,7 @@ router.post('/search', async (req, res) => {
         let query;
 
         if (!title) {
-            if (tagID.length > 0) {
+            if (tagID && tagID.length > 0) {
                 // search all of the tag
                 query = await Item.find({
                     userID: userID,
@@ -224,7 +224,7 @@ router.post('/search', async (req, res) => {
                 }).sort({ createdAt: -1 });
             }
         } else {
-            if (tagID.length > 0) {
+            if (tagID && tagID.length > 0) {
                 // search for a specific tag
                 query = await Item.find({
                     userID: userID,

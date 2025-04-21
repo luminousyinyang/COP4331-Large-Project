@@ -47,6 +47,13 @@ function ProfileBar({
     const [x, setX] = useState(twitterLink);
     const [instagram, setInstagram] = useState(instaLink);
     const [spotify, setSpotify] = useState(spotifyLink);
+    // create edit states
+    const [editFirstname, setEditFirstname] = useState(firstName);
+    const [editLastname, setEditLastname] = useState(lastName);
+    const [editBio, setEditBio] = useState(about);
+    const [editX, setEditX] = useState(twitterLink);
+    const [editInstagram, setEditInstagram] = useState(instaLink);
+    const [editSpotify, setEditSpotify] = useState(spotifyLink);
 
     const handleLogout = async () => {
         try {
@@ -65,19 +72,19 @@ function ProfileBar({
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ firstname, lastname, bio, instagram, spotify, x })
+                body: JSON.stringify({ firstname: editFirstname, lastname: editLastname, bio: editBio, instagram: editInstagram, spotify: editSpotify, x: editX })
             });
 
             const data = await resp.json();
             if (!resp.ok) throw new Error(data.message);
 
             // Update state with response
-            setFirstname(data.firstname || firstname);
-            setLastname(data.lastname || lastname);
-            setBio(data.bio || bio);
-            setInstagram(data.instagram || instagram);
-            setSpotify(data.spotify || spotify);
-            setX(data.x || x);
+            setFirstname(data.firstname || editFirstname);
+            setLastname(data.lastname || editLastname);
+            setBio(data.bio || editBio);
+            setInstagram(data.instagram || editInstagram);
+            setSpotify(data.spotify || editSpotify);
+            setX(data.x || editX);
 
         } catch (error) {
             console.error('Error updating profile:', error);
@@ -117,8 +124,8 @@ function ProfileBar({
                                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                                         id="profile-first-name"
                                                         type="text"
-                                                        value={firstname}
-                                                        onChange={(e) => setFirstname(e.target.value)}
+                                                        value={editFirstname}
+                                                        onChange={(e) => setEditFirstname(e.target.value)}
                                                     />
                                                 </div>
 
@@ -128,8 +135,8 @@ function ProfileBar({
                                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                                         id="profile-last-name"
                                                         type="text"
-                                                        value={lastname}
-                                                        onChange={(e) => setLastname(e.target.value)}
+                                                        value={editLastname}
+                                                        onChange={(e) => setEditLastname(e.target.value)}
                                                     />
                                                 </div>
 
@@ -139,8 +146,8 @@ function ProfileBar({
                                                     <Textarea
                                                         id="profile-bio"
                                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)] w-full h-[120px]"
-                                                        value={bio}
-                                                        onChange={(e) => setBio(e.target.value)}
+                                                        value={editBio}
+                                                        onChange={(e) => setEditBio(e.target.value)}
                                                     />
                                                 </div>
 
@@ -150,8 +157,8 @@ function ProfileBar({
                                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                                         id="instagram-link"
                                                         type="text"
-                                                        value={instagram}
-                                                        onChange={(e) => setInstagram(e.target.value)}
+                                                        value={editInstagram}
+                                                        onChange={(e) => setEditInstagram(e.target.value)}
                                                     />
                                                 </div>
 
@@ -161,8 +168,8 @@ function ProfileBar({
                                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                                         id="spotify-link"
                                                         type="text"
-                                                        value={spotify}
-                                                        onChange={(e) => setSpotify(e.target.value)}
+                                                        value={editSpotify}
+                                                        onChange={(e) => setEditSpotify(e.target.value)}
                                                     />
                                                 </div>
 
@@ -172,8 +179,8 @@ function ProfileBar({
                                                         className="bg-[var(--bg-pale-white)] border-[var(--bg-navy)]"
                                                         id="twitter-link"
                                                         type="text"
-                                                        value={x}
-                                                        onChange={(e) => setX(e.target.value)}
+                                                        value={editX}
+                                                        onChange={(e) => setEditX(e.target.value)}
                                                     />
                                                 </div>
 
