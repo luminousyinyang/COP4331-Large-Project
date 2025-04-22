@@ -19,7 +19,7 @@ export function ItemDetails({
   return (
     <div className={cn("flex flex-col gap-8 bg-[#FEE7D1] rounded-xl p-8", className)} {...props}>
       <div className="flex flex-col items-center gap-4">
-        <h1 className="text-3xl font-bold text-[var(--bg-navy)]">{name}</h1>
+        <h2 className="text-4xl font-bold text-[var(--bg-navy)]">{name}</h2>
         <div className="w-full border-b border-[var(--bg-navy)]" />
       </div>
       
@@ -37,7 +37,7 @@ export function ItemDetails({
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
             >
-              {link}
+              Product Link
             </a>
           </li>
         </ul>
