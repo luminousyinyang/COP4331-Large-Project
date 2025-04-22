@@ -109,12 +109,19 @@ router.post('/create', upload.single('image'), async (req, res) => {
 //     })
 // })
 
-router.post('/update', async (req, res) => {
+router.post('/update',upload.single('image'), async (req, res) => {
     const { itemId, tagID, description, imageURL, price, title, isBought } = req.body;
 
     if (!itemId) {
         return res.status(400).json({ message: 'Item ID is required' });
     }
+
+    let uploadedImageURL = imageURL; // default to the provided imageURL
+    console.log(uploadedImageURL);
+    if (req.file) {
+            uploadedImageURL = `/uploads/${req.file.filename}`; // Save the file path to the imageURL
+    }
+    console.log(uploadedImageURL);
 
     try {
         const item = await Item.findById(itemId);
@@ -125,7 +132,7 @@ router.post('/update', async (req, res) => {
 
         item.tagID = tagID || item.tagID;
         item.description = description || item.description;
-        item.imageURL = imageURL || item.imageURL;
+        item.imageURL = uploadedImageURL || item.imageURL;
         item.price = price !== undefined ? price : item.price;
         item.title = title || item.title;
         item.isBought = isBought !== undefined ? isBought : item.isBought;
@@ -139,9 +146,10 @@ router.post('/update', async (req, res) => {
 });
 
 router.post('/delete', async (req, res) => {
-    const { itemID, userID } = req.body;
+    const { itemID} = req.body;
     // requires just itemID
-
+    let userID = req.session.userId;
+    
     if (!itemID) {
         return res.status(404).json({ message: "itemID missing" });
     }
