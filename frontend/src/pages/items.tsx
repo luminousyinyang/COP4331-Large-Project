@@ -81,6 +81,11 @@ export default function ItemPage() {
   }
 
   const handleDelete = async () => {
+    navigate('/home')
+  }
+
+  const handleEdit = async () => {
+    navigate(`/item/${id}`)
   }
 
   return (
@@ -102,6 +107,7 @@ export default function ItemPage() {
         <div className="max-w-[1400px] mx-auto w-full px-6">
           <ItemBar 
             className="py-10"
+            onEdit={handleEdit}
             onDelete={handleDelete}
             onGoBack={handleGoBack}
             item={item || undefined}

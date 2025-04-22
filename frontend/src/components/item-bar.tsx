@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { ArrowLeft, Trash2, X } from "lucide-react"
+import { ArrowLeft, Trash2, UserRoundIcon, X } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import {
   Dialog,
@@ -16,8 +16,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
 
 interface ItemBarProps extends React.ComponentProps<"div"> {
-  onEdit?: () => void
-  onDelete?: () => void
+  onEdit: () => void
+  onDelete: () => void
   onGoBack?: () => void
   item?: {
     title: string
@@ -54,8 +54,73 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
 
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // temp 
-    setIsEditOpen(false)
+    
+    try {
+      const currentItem: Array<string> = window.location.href.split("/");
+      const requestBody: any = {
+        itemId:currentItem[currentItem.length - 1], 
+        title: editForm.name,
+        price: editForm.price,
+        description: editForm.description
+      };
+
+      // optional change to the tagging system
+      if(editForm.tag) {
+        requestBody.tagID = editForm.tag;
+      }
+
+      // optional change to the image
+      if(editForm.image) {
+        requestBody.image = editForm.image;
+      }
+
+      const response = await fetch('../api/item/update', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      })
+
+      if(response.ok) {
+        alert("Edit successful!")
+        setIsEditOpen(false)
+        onDelete();
+      } else {
+        console.error("Error updating item");
+      }
+      
+    } catch(error) {
+      console.error("Error editing entry", error);
+    }
+  }
+
+  const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const currentItem: Array<string> = window.location.href.split("/");
+    let itemId = currentItem[currentItem.length - 1];
+    try {
+      const response = await fetch('../api/item/delete', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          itemID: itemId
+        })
+      });
+  
+      if(response.ok) {
+        onDelete();
+      } else {
+        alert("something went wrong");
+      }
+    } catch(error) {
+      console.error("something went wrong", error);
+    }
   }
 
   const handleEditChange = (
@@ -90,8 +155,8 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
           </DialogTrigger>
           <DialogContent className="bg-[var(--bg-sandpaper)] w-[560px] h-[720px] py-5 px-15">
             <DialogHeader>
-              <form onSubmit={handleEditSubmit} className="relative flex flex-col gap-3.5">
-                <DialogClose className="cancel-btn absolute w-[35px] h-[35px] -top-1 -right-11 text-white">
+              <form onSubmit={handleEditSubmit} className="relative flex flex-col gap-3.5" encType="multipart/form-data">
+                <DialogClose className="cancel-btn absolute w-[35px] h-[35px] -top-1 -right-11 text-white" >
                   <X className="w-6 h-6 absolute top-1 right-1.75" />
                 </DialogClose>
 
@@ -210,7 +275,7 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
               </DialogDescription>
               <div className="flex justify-between">
                 <DialogClose className="cancel-btn w-[125px] h-[37px] flex justify-center items-center">Cancel</DialogClose>
-                <DialogClose className="w-[125px] h-[37px] flex justify-center items-center text-white bg-[var(--bg-salmon)]" onClick={onDelete}>Delete</DialogClose>
+                <DialogClose className="w-[125px] h-[37px] flex justify-center items-center text-white bg-[var(--bg-salmon)]" onClick={handleDelete}>Delete</DialogClose>
               </div>
             </DialogHeader>
           </DialogContent>
