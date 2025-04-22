@@ -140,6 +140,7 @@ function LandingPage() {
             instaLink={instagram}
             spotifyLink={spotify}
             twitterLink={x}
+            visiting={urlUsername? true: false}
             className="slide-in-left h-screen sticky top-0 right-0"
           />
         </div>

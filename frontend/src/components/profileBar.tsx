@@ -26,6 +26,7 @@ type ProfileBarProps = {
     instaLink: string;
     spotifyLink: string;
     twitterLink: string;
+    visiting: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 function ProfileBar({
@@ -38,6 +39,7 @@ function ProfileBar({
     instaLink,
     spotifyLink,
     twitterLink,
+    visiting,
     ...props
 }: ProfileBarProps) {
     const navigate = useNavigate();
@@ -95,7 +97,7 @@ function ProfileBar({
     return (
         <div className={cn("flex flex-col items-center gap-4 w-[400px] bg-[var(--bg-pale-white)] border rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)]", className)} {...props}>
             <div className="w-[380px] pt-3">
-                <Dialog>
+                {(visiting? <></>: <Dialog>
                     <DialogTrigger className="w-0 h-0 flex justify-center items-center !bg-[var(--bg-sandpaper)] !border-0">
                         <i className="inline-block text-2xl bi bi-gear-fill hover:text-[var(--bg-salmon)] hover:scale-125 hover:rotate-180 transition-all duration-400 ease-out cursor-pointer"></i>
                     </DialogTrigger>
@@ -200,7 +202,7 @@ function ProfileBar({
                             <DialogDescription></DialogDescription>
                         </DialogHeader>
                     </DialogContent>
-                </Dialog>
+                </Dialog>)}
             </div>
 
             <img

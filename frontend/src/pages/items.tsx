@@ -18,6 +18,8 @@ interface Item {
   description: string;
   imageURL: string;
   tags: Tag[];
+  visiting: boolean;
+  ownerUsername: string;
 }
 
 export default function ItemPage() {
@@ -77,7 +79,8 @@ export default function ItemPage() {
   // }
 
   const handleGoBack = () => {
-    navigate('/home')
+    const link = item?.visiting ? `/user/${item?.ownerUsername}` : `/home`
+    navigate(link)
   }
 
   const handleDelete = async () => {
@@ -110,6 +113,7 @@ export default function ItemPage() {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onGoBack={handleGoBack}
+            visiting={item?.visiting? true: false}
             item={item || undefined}
           />
         </div>

@@ -195,6 +195,7 @@ router.post('/delete', async (req, res) => {
 
 router.post('/singleitem', async (req, res) => {
     const { itemID } = req.body;
+    let userID = req.session.userId;
 
     try {
         const query = await Item.findById(itemID);
@@ -210,9 +211,21 @@ router.post('/singleitem', async (req, res) => {
             }
         }
 
+        let visiting = userID !== query.userID.toString() ? true : false;
+        let ownerUsername = null;
+        if (visiting) {
+            const owner = await User.findById(query.userID, 'username');
+            if (owner) {
+                ownerUsername = owner.username;
+            }
+        }
+
+
         const formatted = {
             ...query.toObject(),
-            tags: tagsArr
+            tags: tagsArr,
+            visiting: visiting,
+            ownerUsername: ownerUsername
         };
 
         res.status(200).json({ message: "success", item: formatted });

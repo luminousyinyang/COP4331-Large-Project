@@ -26,9 +26,10 @@ interface ItemBarProps extends React.ComponentProps<"div"> {
     imageURL: string
     tags?: Array<{ id: string, name: string }>
   }
+  visiting?: boolean
 }
 
-export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props }: ItemBarProps) {
+export function ItemBar({ className, onEdit, onDelete, onGoBack, item, visiting, ...props }: ItemBarProps) {
   const navigate = useNavigate()
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [editForm, setEditForm] = useState({
@@ -136,7 +137,7 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
 
       {/* edit */}
       <div className="flex gap-4">
-        <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        {(visiting? <></>: <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
           <DialogTrigger asChild>
             <button 
               className="!bg-[var(--bg-navy)] text-white hover:!bg-[var(--bg-salmon)] hover:border-[var(--bg-salmon)] h-[45px] flex items-center gap-2 px-6 relative rounded-full transition-all duration-350 ease-in-out shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"
@@ -242,10 +243,10 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
               </form>
             </DialogHeader>
           </DialogContent>
-        </Dialog>
+        </Dialog>)}
 
         {/* delete confirm */}
-        <Dialog>
+        {(visiting? <></>: <Dialog>
           <DialogTrigger asChild>
             <button 
               className="bg-[var(--bg-salmon)] text-white hover:bg-[var(--bg-navy)] hover:border-[var(--bg-navy)] h-[45px] flex items-center gap-2 px-6 relative rounded-full border border-transparent transition-all duration-350 ease-in-out shadow-[5px_5px_5px_rgba(0,0,0,0.3)]"
@@ -272,7 +273,7 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
               </div>
             </DialogHeader>
           </DialogContent>
-        </Dialog>
+        </Dialog>)}
       </div>
     </div>
   )
