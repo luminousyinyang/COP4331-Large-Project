@@ -62,7 +62,7 @@ const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, onSea
             </img>
             <div className="w-[480px] h-full flex flex-col justify-start pt-5 gap-3">
                 <div className="flex justify-between">
-                    <h2 className="font-bold overflow-hidden h-[22px]">{title}</h2>
+                    <h2 className="font-bold overflow-hidden h-[22px] pr-10">{title}</h2>
                     {(visiting ? <></> :
                     <Dialog>
                         <div className="relative" onClick={e => e.stopPropagation()}>
