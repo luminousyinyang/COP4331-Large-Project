@@ -25,6 +25,30 @@ type ItemProps = {
 
 const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, ...props }: ItemProps) => {
     const navigate = useNavigate();
+    
+    const handleDelete = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('api/item/delete', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    itemID: itemId
+                })
+            })
+
+            if(response.ok) {
+                window.location.reload()
+            } else {
+                alert("something went wrong");
+            }
+        } catch(error) {
+            alert(error);
+        }
+      }
 
     return (
         <div className="flex justify-center items-center gap-8 h-[195px] w-[720px] border rounded-2xl bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] cursor-pointer hover:scale-102 transition-transform duration-500 ease-in-out"
@@ -57,7 +81,7 @@ const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, ...pr
                                 </DialogDescription>
                                 <div className="flex justify-between">
                                     <DialogClose className="cancel-btn w-[75px] h-[37px] flex justify-center items-center ">Cancel</DialogClose>
-                                    <DialogClose className=" w-[75px] h-[37px] flex justify-center items-center text-white ">Delete</DialogClose>
+                                    <DialogClose className=" w-[75px] h-[37px] flex justify-center items-center text-white " onClick={handleDelete}>Delete</DialogClose>
                                 </div>
                             </DialogHeader>
                         </DialogContent>
