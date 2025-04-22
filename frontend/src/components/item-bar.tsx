@@ -54,7 +54,6 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
 
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
     try {
       const currentItem: Array<string> = window.location.href.split("/");
       const requestBody: any = {
@@ -84,7 +83,6 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
       })
 
       if(response.ok) {
-        alert("Edit successful!")
         setIsEditOpen(false)
         onDelete();
       } else {
