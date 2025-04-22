@@ -165,8 +165,8 @@ router.post('/update',upload.single('image'), async (req, res) => {
 });
 
 router.post('/delete', async (req, res) => {
+    // itemID comes from the request, userID comes from the session itself
     const { itemID} = req.body;
-    // requires just itemID
     let userID = req.session.userId;
 
     if (!itemID) {
