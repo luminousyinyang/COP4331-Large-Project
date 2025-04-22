@@ -119,7 +119,8 @@ router.post('/update',upload.single('image'), async (req, res) => {
     let uploadedImageURL = imageURL; // default to the provided imageURL
     console.log(uploadedImageURL);
     if (req.file) {
-            uploadedImageURL = `/uploads/${req.file.filename}`; // Save the file path to the imageURL
+        console.log("uploading the image!");
+        uploadedImageURL = `/uploads/${req.file.filename}`; // Save the file path to the imageURL
     }
     console.log(uploadedImageURL);
 
@@ -130,7 +131,25 @@ router.post('/update',upload.single('image'), async (req, res) => {
             return res.status(404).json({ message: 'Item not found' });
         }
 
-        item.tagID = tagID || item.tagID;
+        let tag = null;
+        if (tagID) {
+            const tagLower = tagID.toLowerCase();
+            let foundTag = await Tag.findOne({ tagName: {
+                $regex: `^${tagID}$`,
+                $options: 'i'
+            } });
+            if (!foundTag) {
+                // Create a new if no matches
+                foundTag = new Tag({
+                    userID,
+                    tagName: tagID,
+                });
+                await foundTag.save();
+            }
+            tag = foundTag._id;
+        }
+
+        item.tagID = tag || item.tagID;
         item.description = description || item.description;
         item.imageURL = uploadedImageURL || item.imageURL;
         item.price = price !== undefined ? price : item.price;
@@ -149,7 +168,7 @@ router.post('/delete', async (req, res) => {
     const { itemID} = req.body;
     // requires just itemID
     let userID = req.session.userId;
-    
+
     if (!itemID) {
         return res.status(404).json({ message: "itemID missing" });
     }
