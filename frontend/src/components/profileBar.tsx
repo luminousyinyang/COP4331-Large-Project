@@ -68,7 +68,44 @@ function ProfileBar({
         }
     };
 
+    function isValidURL(link: string) {
+        try {
+            new URL(link);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    function isInstaValid(link: string) {
+        if (!isValidURL(link)) return false;
+        return new URL(link).hostname.toLowerCase().includes('instagram.com');
+    }
+
+    function isSpotifyValid(link: string) {
+        if (!isValidURL(link)) return false;
+        return new URL(link).hostname.toLowerCase().includes('spotify.com');
+    }
+
+    function isXValid(link: string) {
+        if (!isValidURL(link)) return false;
+        return new URL(link).hostname.toLowerCase().includes('x.com');
+    }
+
     const handleSubmit = async () => {
+        if (editInstagram.trim() !== "" && !isInstaValid(editInstagram.trim())) {
+            console.error('Invalid Instagram link');
+            return;
+        }
+        if (editSpotify.trim() !== "" && !isSpotifyValid(editSpotify.trim())) {
+            console.error('Invalid Spotify link');
+            return;
+        }
+        if (editX.trim() !== "" && !isXValid(editX.trim())) {
+            console.error('Invalid X link');
+            return;
+        }
+
         try {
             const resp = await fetch('/api/auth/profile', {
                 method: 'POST',
