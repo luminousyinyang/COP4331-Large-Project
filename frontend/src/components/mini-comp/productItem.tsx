@@ -22,9 +22,10 @@ type ItemProps = {
     title: string;
     itemId: string;
     onSearch?: (query: string) => void;
+    visiting?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, onSearch, ...props }: ItemProps) => {
+const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, onSearch, visiting, ...props }: ItemProps) => {
     const navigate = useNavigate();
     
     const handleDelete = async (e: React.FormEvent) => {
@@ -62,6 +63,7 @@ const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, onSea
             <div className="w-[480px] h-full flex flex-col justify-start pt-5 gap-3">
                 <div className="flex justify-between">
                     <h2 className="font-bold overflow-hidden h-[22px]">{title}</h2>
+                    {(visiting ? <></> :
                     <Dialog>
                         <div className="relative" onClick={e => e.stopPropagation()}>
                             <DialogTrigger className="cancel-btn size-9 absolute -top-1 -right-1">
@@ -87,6 +89,7 @@ const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, onSea
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
+                    )}
                 </div>
                 <p className="overflow-hidden h-[22px]"><b>$</b> {price} </p>
                 <p className="text-sm overflow-hidden h-[78px]">{itemDesc}</p>

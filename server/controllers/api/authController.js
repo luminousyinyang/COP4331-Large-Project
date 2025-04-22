@@ -67,10 +67,16 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.get('/profile', isAuthenticated, async (req, res) => {
+router.get('/profile/:username?', isAuthenticated, async (req, res) => {
     try {
-        const userId = req.session.userId;
-        const user = await User.findById(userId).select('username firstname lastname bio x instagram spotify ').lean();
+        let user;
+        if (req.params.username) {
+            user = await User.findOne({username: req.params.username}).select('username firstname lastname bio x instagram spotify ').lean();
+        } else {
+            const userId = req.session.userId;
+            user = await User.findById(userId).select('username firstname lastname bio x instagram spotify ').lean();
+        }
+
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

@@ -4,6 +4,7 @@ import { ItemContainer } from "@/components/items-container";
 import { ProfileBar } from "@/components/profileBar";
 import SyncLoader from "react-spinners/SyncLoader";
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // Define Item interface to match backend schema
 interface Item {
@@ -29,12 +30,21 @@ function LandingPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const color = "black";
 
+  const { username: urlUsername } = useParams<{ username: string }>();
+
   useEffect(() => {
     const checkSessionAndFetchItems = async () => {
       try {
-        const resp = await fetch('/api/auth/profile', {
-          credentials: 'include',
-        });
+        let resp;
+        if (urlUsername) {
+          resp = await fetch(`/api/auth/profile/${urlUsername}`, {
+            credentials: 'include',
+          });
+        } else {
+          resp = await fetch('/api/auth/profile', {
+            credentials: 'include',
+          });
+        }
 
         if (!resp.ok) {
           navigate('/login');
@@ -42,6 +52,7 @@ function LandingPage() {
         }
 
         const { userId, username, firstname, lastname, bio, instagram, x, spotify } = await resp.json();
+        
 
         setFirstName(firstname || '');
         setLastName(lastname || '');
@@ -115,9 +126,10 @@ function LandingPage() {
               className="slide-in-bottom pt-10 ml-25"
               userId={userId}
               onItemAdded={handleItemAdded}
+              visiting={urlUsername? true: false}
               onSearch={handleSearch}
             />
-            <ItemContainer className="slide-in-right ml-25" items={items} onSearch={handleSearch} />
+            <ItemContainer className="slide-in-right ml-25" items={items} visiting={urlUsername? true: false} onSearch={handleSearch} />
           </div>
           <ProfileBar
             image={"Image"}

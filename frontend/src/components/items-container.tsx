@@ -9,7 +9,7 @@ type ItemType = {
     _id: string;
 };
 
-function ItemContainer({ className, items = [], onSearch, ...props }: React.ComponentProps<"div"> & { items: ItemType[]; onSearch?: (query: string) => void }) {
+function ItemContainer({ className, items = [], onSearch, visiting, ...props }: React.ComponentProps<"div"> & { items: ItemType[]; onSearch?: (query: string) => void; visiting?: boolean }) {
     return (
         <div className={cn("flex space-y-3 flex-col w-[780px] h-auto gap-3 bg-[var(--bg-pale-white)] border rounded-2xl items-center justify-start py-5", className)} {...props}>
             {items.length > 0 ? (
@@ -23,6 +23,7 @@ function ItemContainer({ className, items = [], onSearch, ...props }: React.Comp
                         title={item.title}
                         itemId = {item._id}
                         onSearch = {onSearch}
+                        visiting = {visiting}
                     />
                 ))
             ) : (

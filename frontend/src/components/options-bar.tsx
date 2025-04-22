@@ -18,6 +18,7 @@ interface OptionsBarProps extends React.ComponentProps<'div'> {
     userId: string;
     onItemAdded?: (item: Item) => void;
     onSearch: (title: string, tagID?: string) => void;
+    visiting: boolean;
 }
 
 // Form data structure
@@ -309,7 +310,7 @@ interface Tag {
     tagName: string;
 }
 
-const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded, onSearch, ...props }) => {
+const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded, onSearch, visiting, ...props }) => {
     const [open, setOpen] = useState(false);
     const [searchVal, setSearchVal] = useState('');
     const [tags, setTags] = useState<Tag[]>([]);
@@ -368,7 +369,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
                     />
                     <Filter size={22} color="white" className="absolute top-1.5 right-3" />
                 </div>
-                <Dialog open={open} onOpenChange={setOpen}>
+                {(visiting? <></>: <Dialog open={open} onOpenChange={setOpen}>
                     <div className="relative hover:scale-110 transition-all duration-400">
                         <DialogTrigger
                             disabled={!userId}
@@ -379,7 +380,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
                         </DialogTrigger>
                     </div>
                     <AddItemForm userId={userId} open={open} setOpen={setOpen} onItemAdded={onItemAdded} />
-                </Dialog>
+                </Dialog>)}
             </div>
         </div>
     );
