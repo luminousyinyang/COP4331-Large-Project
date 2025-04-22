@@ -56,35 +56,30 @@ export function ItemBar({ className, onEdit, onDelete, onGoBack, item, ...props 
     e.preventDefault()
     try {
       const currentItem: Array<string> = window.location.href.split("/");
-      const requestBody: any = {
-        itemId:currentItem[currentItem.length - 1], 
-        title: editForm.name,
-        price: editForm.price,
-        description: editForm.description
-      };
-
-      // optional change to the tagging system
-      if(editForm.tag) {
-        requestBody.tagID = editForm.tag;
+      const formData = new FormData();
+      formData.append("itemId", currentItem[currentItem.length - 1]);
+      formData.append("title", editForm.name);
+      formData.append("price", editForm.price);
+      formData.append("description", editForm.description);
+      if (editForm.tag) {
+        formData.append("tagID", editForm.tag);
       }
 
-      // optional change to the image
-      if(editForm.image) {
-        requestBody.image = editForm.image;
+      if (editForm.image) {
+        formData.append("image", editForm.image);
+      } else {
+        formData.append("imageURL", item?.imageURL || "");
       }
 
       const response = await fetch('../api/item/update', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
+        body: formData
       })
 
       if(response.ok) {
         setIsEditOpen(false)
-        onDelete();
+        onEdit();
       } else {
         console.error("Error updating item");
       }

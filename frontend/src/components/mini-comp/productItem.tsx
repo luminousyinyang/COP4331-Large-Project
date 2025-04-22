@@ -21,13 +21,13 @@ type ItemProps = {
     itemDesc: string;
     title: string;
     itemId: string;
+    onSearch?: (query: string) => void;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, ...props }: ItemProps) => {
+const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, onSearch, ...props }: ItemProps) => {
     const navigate = useNavigate();
     
     const handleDelete = async (e: React.FormEvent) => {
-        e.preventDefault();
         try {
             const response = await fetch('api/item/delete', {
                 method: 'POST',
@@ -41,7 +41,8 @@ const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, ...pr
             })
 
             if(response.ok) {
-                window.location.reload()
+                if (onSearch) onSearch('');
+                else window.location.reload();
             } else {
                 alert("something went wrong");
             }

@@ -111,6 +111,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
 
 router.post('/update',upload.single('image'), async (req, res) => {
     const { itemId, tagID, description, imageURL, price, title, isBought } = req.body;
+    let userID = req.session.userId;
 
     if (!itemId) {
         return res.status(400).json({ message: 'Item ID is required' });

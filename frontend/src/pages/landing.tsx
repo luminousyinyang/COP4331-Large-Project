@@ -117,7 +117,7 @@ function LandingPage() {
               onItemAdded={handleItemAdded}
               onSearch={handleSearch}
             />
-            <ItemContainer className="slide-in-right ml-25" items={items} />
+            <ItemContainer className="slide-in-right ml-25" items={items} onSearch={handleSearch} />
           </div>
           <ProfileBar
             image={"Image"}

@@ -85,7 +85,7 @@ export default function ItemPage() {
   }
 
   const handleEdit = async () => {
-    navigate(`/item/${id}`)
+    window.location.reload()
   }
 
   return (
