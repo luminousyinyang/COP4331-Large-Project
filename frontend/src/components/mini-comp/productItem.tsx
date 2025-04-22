@@ -38,12 +38,12 @@ const Item = ({ className, image, imgDesc, price, itemDesc, title, itemId, ...pr
                 <div className="flex justify-between">
                     <h2 className="font-bold overflow-hidden h-[22px]">{title}</h2>
                     <Dialog>
-                        <div className="relative">
+                        <div className="relative" onClick={e => e.stopPropagation()}>
                             <DialogTrigger className="cancel-btn size-9 absolute -top-1 -right-1">
                                 <X className="absolute top-1.25 right-1.75"></X>
                             </DialogTrigger>
                         </div>
-                        <DialogContent className="w-[400px] bg-[var(--bg-sandpaper)] pt-5 px-12">
+                        <DialogContent className="w-[400px] bg-[var(--bg-sandpaper)] pt-5 px-12" onClick={e => e.stopPropagation()}>
                             <DialogHeader>
                                 <DialogClose className="cancel-btn absolute w-[35px] h-[35px] top-2 right-2 text-white">
                                     <X className="w-6 h-6 absolute top-1.25 right-1.75"></X>
