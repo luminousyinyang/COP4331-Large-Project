@@ -18,7 +18,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
       },
@@ -26,7 +26,7 @@ export default defineConfig({
       // ProxyPass /uploads http://localhost:5000/uploads
       // ProxyPassReverse /uploads http://localhost:5000/uploads
       '/uploads': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
       }
