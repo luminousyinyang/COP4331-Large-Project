@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -316,24 +316,30 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
     const [tags, setTags] = useState<Tag[]>([]);
     const [selectedTag, setSelectedTag] = useState<string | ''>('');
 
-    useEffect(() => {
-        const fetchTags = async () => {
-            try {
-                const resp = await fetch(`/api/item/gettags?userId=${userId}`);
-                const json = await resp.json();
-    
-                if (resp.ok) {
-                    setTags(json.tags);
-                } else {
-                    console.error('Failed to fetch tags:', json.message);
-                }
-            } catch (error) {
-                console.error('Error fetching tags:', error);
-            }
-        };
+    const fetchTags = useCallback(async () => {
+        try {
+            const resp = await fetch(`/api/item/gettags?userId=${userId}`);
+            const json = await resp.json();
 
+            if (resp.ok) {
+                setTags(json.tags);
+            } else {
+                console.error('Failed to fetch tags:', json.message);
+            }
+        } catch (error) {
+            console.error('Error fetching tags:', error);
+        }
+    }, [userId]);
+
+    useEffect(() => {
         fetchTags();
-    }, [userId])
+    }, [fetchTags]);
+
+    const handleAdd = async (item: Item) => {
+        onItemAdded?.(item);
+        await fetchTags();
+        setOpen(false);
+      };
 
     useEffect(() => {
         onSearch(searchVal.trim(), selectedTag || undefined);
@@ -379,7 +385,7 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ className, userId, onItemAdded,
                             <PlusSquare size={22} color="white" className="absolute top-2 right-3" />
                         </DialogTrigger>
                     </div>
-                    <AddItemForm userId={userId} open={open} setOpen={setOpen} onItemAdded={onItemAdded} />
+                    <AddItemForm userId={userId} open={open} setOpen={setOpen} onItemAdded={handleAdd} />
                 </Dialog>)}
             </div>
         </div>

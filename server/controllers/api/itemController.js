@@ -184,8 +184,17 @@ router.post('/delete', async (req, res) => {
         return res.status(403).json({ message: "Forbidden: Item not for this user" });
     }
 
+    const tagID = itemUserID.tagID;
+
     try {
         const query = await Item.deleteOne({ _id: itemID });
+
+        if (tagID) {
+            const tagItemsRemaining = await Item.countDocuments({ tagID: tagID });
+            if (tagItemsRemaining === 0) {
+                await Tag.deleteOne({ _id: tagID, userID: userID });
+            }
+        }
 
         res.status(200).json({
             message: "removal successful",
