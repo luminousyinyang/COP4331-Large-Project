@@ -31,7 +31,9 @@ router.post('/create', upload.single('image'), async (req, res) => {
         let tagID = null;
         if (tag) {
             const tagLower = tag.toLowerCase();
-            let foundTag = await Tag.findOne({ tagName: {
+            let foundTag = await Tag.findOne({ 
+                userID: userID,
+                tagName: {
                 $regex: `^${tag}$`,
                 $options: 'i'
             } });
@@ -135,7 +137,9 @@ router.post('/update',upload.single('image'), async (req, res) => {
         let tag = null;
         if (tagID) {
             const tagLower = tagID.toLowerCase();
-            let foundTag = await Tag.findOne({ tagName: {
+            let foundTag = await Tag.findOne({ 
+                userID: userID,
+                tagName: {
                 $regex: `^${tagID}$`,
                 $options: 'i'
             } });
