@@ -11,7 +11,7 @@ interface ItemImageProps extends React.ComponentProps<"div"> {
 
 export function ItemImage({ className, imageUrl, tags, ...props }: ItemImageProps) {
   return (
-    <div className={cn("flex flex-col gap-4", className)} {...props}>
+    <div className={cn("flex flex-col mx-10 gap-4", className)} {...props}>
       <div className="w-full aspect-square rounded-xl overflow-hidden">
         <img 
           src={imageUrl} 
